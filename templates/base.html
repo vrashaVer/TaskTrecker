@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Tracker</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="left">
+                <a href="">Home</a>
+                <a href="">Projects</a>
+                <a href="">Tasks</a>
+            </div>
+            <div class="right">
+                <a href="">Login</a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="content"> <!-- Додано клас "content" -->
+            {% block content %}
+            {% endblock %}
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Task Tracker. All rights reserved.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,74 @@
+/* Основні стилі */
+html, body {
+    height: 100%; /* Встановлює висоту для html та body */
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column; /* Розташування елементів у стовпчик */
+}
+
+/* Стилі для header */
+header {
+    background-color: rgba(38, 37, 37, 0.8); /* Темний фон з прозорістю */
+    padding: 15px 0;
+    width: 100%;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between; /* Вирівнює елементи між собою */
+    max-width: 1200px; /* Максимальна ширина навігації */
+    margin: 0 auto; /* Центрує навігацію */
+    padding: 0 10px; /* Відступи для навігації, щоб уникнути від країв */
+    width: 100%; /* Займає всю ширину */
+}
+
+/* Посилання ліворуч */
+.left {
+    display: flex;
+    justify-content: flex-start; /* Вирівнює посилання вліво */
+}
+
+/* Посилання праворуч */
+.right {
+    display: flex;
+    justify-content: flex-end; /* Вирівнює посилання вправо */
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s ease;
+    padding: 0 10px; /* Збільшення горизонтальних відступів для посилань */
+}
+
+nav a:hover {
+    color: #ff9900; /* Зміна кольору при наведенні */
+}
+
+/* Стилі для основного контенту */
+main {
+    flex: 1; /* Дозволяє контенту займати залишкову висоту */
+}
+
+/* Новий клас для основного контенту */
+.content {
+    max-width: 800px; /* Максимальна ширина блоку контенту */
+    width: 100%; /* Задає ширину контенту на 100% */
+    margin: 20px auto; /* Центрує блок контенту з вертикальними відступами */
+    padding: 0 10%; /* Відступи тільки зліва та справа для контенту */
+    text-align: left; /* Вирівнювання тексту по лівому краю */
+}
+
+/* Стилі для footer */
+footer {
+    background-color: rgba(38, 37, 37, 0.8); /* Темний фон з прозорістю */
+    color: rgba(255, 255, 255, 0.6);
+    text-align: center;
+    padding: 15px 0;
+}
