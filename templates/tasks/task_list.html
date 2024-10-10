@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'tasks.css' %}">
+
+<div class="tasks-container">
+    <aside class="filter-area">
+        <h2>Filters</h2>
+        <!-- Add your future filter options here -->
+    </aside>
+
+    <div class="task-list-area">
+        <div class="search-container">
+            <form id="search-form" method="get" action="{% url 'tasks-list' %}">
+                <input type="text" name="search" id="search-input" placeholder="Search tasks..." class="search-bar" value="{{ request.GET.search }}" oninput="submitSearch()">
+            </form>
+        </div>
+
+        <div class="task-list">
+            {% if tasks %}
+                {% for task in tasks %}
+                    <div class="task-item {{ task.priority|lower }}">
+                        <a href="{% url 'task_detail' task.id %}" class="task-item-link">
+                            <h3>{{ task.name }}</h3>
+                            <p>Deadline: {{ task.deadline }}</p>
+                            <p>Priority: {{ task.get_priority_display }}</p>
+                        </a>
+                    </div>   
+                    
+                {% endfor %}
+            {% else %}
+            {% if request.GET.search %}
+                    <div class="no-tasks-div">
+                        <p class="no-tasks-message">No tasks found for "{{ request.GET.search }}".</p>
+                    </div>
+                {% else %}
+                    <div class="no-tasks-div">
+                        <p class="no-tasks-message">You don't have tasks yet</p>
+                        {% if not user.is_authenticated %}
+                            <p class="no-tasks-message">
+                                If you want to create tasks, please 
+                                <a href="" class="login-link">log in</a>.
+                            </p>
+                        {% endif %}
+                    </div>
+                {% endif %}
+            {% endif %}
+            
+        </div>
+    </div>
+
+    <aside class="upcoming-tasks-area">
+        <div class="create-task-container">
+            <a href="{% url 'create-task' %}" class="create-task-button" id="create-task-button" onclick="checkAuth(event)">+ Create New Task</a>
+            <p id="login-prompt" class="login-prompt" style="display: none;">You need to <a href="">log in</a> to create a task.</p>
+        </div>
+        <h2>Upcoming Deadlines</h2>
+        {% if urgent_tasks %}
+            <ul class="upcoming-list">
+                {% for urgent in urgent_tasks %}
+                    <li class="urgent-task">
+                        <a href="{% url 'task_detail' urgent.id %}" class="task-item-link">
+                            {{ urgent.name }} - Deadline: {{ urgent.deadline }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {%else%}
+            <p class="no-uncoming-task"> You dont have uncoming task</p>
+        {%endif%}
+            
+    </aside>
+</div>
+{% endblock %}
+
+
+<script>
+    function submitSearch() {
+        const input = document.getElementById('search-input');
+        const form = document.getElementById('search-form');
+        
+        // Оновлює параметр у URL
+        const url = new URL(form.action);
+        url.searchParams.set('search', input.value); // Оновлює параметр "search"
+        
+        // Відправляє запит
+        fetch(url)
+            .then(response => response.text())
+            .then(html => {
+                // Оновлює контент сторінки без перезавантаження
+                document.querySelector('.task-list').innerHTML = new DOMParser().parseFromString(html, 'text/html').querySelector('.task-list').innerHTML;
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function checkAuth(event) {
+        if (!isAuthenticated) {
+        event.preventDefault(); // Зупиняє перезавантаження сторінки
+        document.getElementById('login-prompt').style.display = 'block'; // Показує повідомлення
+        } else {
+            // Якщо користувач авторизований, то переходить на сторінку створення завдання
+            window.location.href = event.target.href;
+        }
+    }
+
+    
+</script>

@@ -3,33 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task Tracker</title>
+    
     {% load static %}
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
+
+    <link rel="stylesheet" href="{% static 'base.css' %}">
+    <title>{% block title %}Task Tracker{% endblock %}</title>
+
 </head>
 <body>
-    <header>
+    <header >
         <nav>
-            <div class="left">
-                <a href="">Home</a>
-                <a href="">Projects</a>
-                <a href="">Tasks</a>
-            </div>
-            <div class="right">
-                <a href="">Login</a>
-            </div>
+            <ul class="nav-links">
+                <li><a href="{% url 'home' %}">Main</a></li>
+                <li><a href="{% url 'tasks-list' %}">Tasks</a></li>
+                <li><a href="">Projects</a></li>
+            </ul>
+            
+            <ul class="auth-links">
+                {% if user.is_authenticated %}
+                    <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-button">Logout</button>
+                    </form>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                {% endif %}
+            </ul>
         </nav>
     </header>
 
-    <main>
-        <div class="content"> <!-- Додано клас "content" -->
-            {% block content %}
-            {% endblock %}
-        </div>
+    <main >
+        {% block content %}
+        {% endblock %}
     </main>
 
     <footer>
         <p>&copy; 2024 Task Tracker. All rights reserved.</p>
     </footer>
+   
 </body>
 </html>

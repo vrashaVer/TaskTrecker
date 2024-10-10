@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'tasks.css' %}">
+
+<div class="task-edit-container">
+    <h2>Edit Task</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}  <!-- Відображає форму -->
+        <button type="submit" class="btn">Save Changes</button>
+        <a href="{% url 'tasks-list' %}" class="btn">Cancel</a>  <!-- Кнопка для скасування редагування -->
+    </form>
+</div>
+{% endblock %}

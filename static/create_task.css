@@ -1,0 +1,13 @@
+.create-task-button {
+    background-color: #007BFF; /* Синій фон */
+    color: white; /* Білий текст */
+    border: none; /* Без рамки */
+    padding: 10px 15px; /* Внутрішні відступи */
+    border-radius: 5px; /* Закруглені кути */
+    cursor: pointer; /* Зміна курсору на pointer */
+    text-decoration: none; /* Без підкреслення */
+}
+
+.create-task-button:hover {
+    background-color: #0056b3; /* Темніший відтінок при наведенні */
+}

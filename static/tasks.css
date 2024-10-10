@@ -1,0 +1,231 @@
+.tasks-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    flex-grow: 1;
+    height: calc(100vh - 40px); /* Висота для контейнера */
+    
+}
+
+.filter-area, .upcoming-tasks-area {
+    width: 20%; /* Відсоток ширини для фільтрів */
+    background-color: #e0e0e0;
+    padding: 0;
+    height: 100%; /* Займає всю висоту контейнера */
+    box-sizing: border-box; /* Включає відступи в загальний розрахунок */
+}
+
+.filter-area h2{
+    text-align: center;
+}
+
+.task-list-area {
+    width: 60%; /* Центральна частина займає 60% ширини */
+    padding: 0; /* Видаляє додаткові відступи */
+    background-color: #ffffff;
+    margin: 0; /* Видаляє додаткові відступи */
+    display: flex;
+    flex-direction: column; /* Дозволяє вертикальне розміщення */
+    height: 100%; /* Займає всю висоту контейнера */
+}
+
+/* Інші стилі залишаються без змін */
+.search-container {
+    padding: 10px; /* Внутрішні відступи для контейнера пошуку */
+    background-color: #f9f9f9; /* Колір фону для пошукової стрічки */
+    border-bottom: 1px solid #ccc; /* Рамка знизу для відділення від списку завдань */
+    text-align: center; /* Центрування вмісту контейнера */
+}
+
+.search-bar {
+    width: 90%; /* Зменшуємо ширину, щоб не виходила за межі */
+    max-width: 700px; /* Максимальна ширина для пошукової стрічки */
+    padding: 8px;
+    margin: 0 auto; /* Центрування по горизонталі */
+    display: block; /* Блочний елемент для центрування */
+}
+
+.task-list {
+    margin-top: 0; /* Немає відступів між контейнерами */
+    overflow-y: auto; /* Дозволяє вертикальне прокручування */
+    flex-grow: 1; /* Займає всю доступну висоту */
+}
+
+/* Стилі для рядків завдань */
+.task-item {
+    border: 1px solid #ccc;
+    padding: 10px; /* Внутрішні відступи */
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+    border-radius: 5px; /* Округлені краї */
+    display: flex;
+    flex-direction: column; /* Вирівнювання тексту вертикально */
+    height: auto; /* Автоматична висота */
+    transition: background-color 0.3s ease;
+}
+
+/* Заголовок завдання */
+.task-item h3 {
+    margin: 0; /* Прибираємо відступи */
+    font-size: 1.2em; /* Розмір заголовка */
+    overflow-wrap: break-word; /* Дозволяє перенесення слів */
+}
+
+.task-item p {
+    margin: 5px 0; /* Невеликі відступи між параграфами */
+    line-height: 1.3; /* Відстань між рядками */
+}
+
+
+
+/* Стилі для термінових завдань */
+.upcoming-tasks-area {
+    border-left: 1px solid #ccc; /* Рамка зліва */
+    background-color: #e0e0e0; /* Колір фону - старий фон */
+    padding: 10px; /* Внутрішні відступи */
+    display: flex;
+    flex-direction: column; /* Вертикальне вирівнювання */
+    height: auto; /* Дозволяє динамічну висоту */
+    max-height: 100%; /* Висота секції не перевищує 100% */
+    overflow: hidden; /* Приховує зайвий вміст */
+    
+}
+
+.upcoming-tasks-area h2{
+    text-align: center;
+}
+
+.task-item-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.upcoming-list {
+    
+    list-style: none; /* Прибирає маркери списку */
+    padding: 0; /* Прибирає відступи */
+    margin: 0; /* Прибирає відступи */
+    overflow-y: auto; /* Дозволяє прокрутку при переповненні */
+    max-height: calc(450px - 50px); /* Задає максимальну висоту для списку */
+    background-color: #d0d0d0; /* Затінений колір фону для списку */
+    border: 1.5px solid #aaa; /* Прямокутна рамка для розмежування */
+    padding: 5px; /* Внутрішні відступи для списку */
+}
+
+/* Стилі для термінових завдань */
+
+
+.urgent-task {
+    border: 1px solid #ffcc00; /* Рамка для термінових завдань */
+    padding: 10px; /* Внутрішні відступи */
+    margin-bottom: 10px; /* Відступи між елементами списку */
+    background-color: #fff3cd; /* Колір фону */
+    border-radius: 3px; /* Округлені краї */
+    overflow-wrap: break-word; /* Дозволяє перенесення слів */
+    transition: background-color 0.3s ease; /* Перехід для фону */
+    color: black;
+}
+
+.urgent-task:hover {
+    background-color: rgb(255, 219, 109); /* Світліший фон при наведенні */
+    color: rgb(0, 0, 0);
+}
+
+.urgent-task a:hover {
+    color: black; /* Чорний колір тексту при наведенні на посилання */
+}
+/* Заголовок термінового завдання */
+
+
+
+.no-uncoming-task{
+    font-size: 1em ;
+    color: #777 ;
+    text-align: center;
+    margin-top: 0 ;
+    padding: 0 ;
+    border-radius: 3px;
+}
+
+
+.no-tasks-message {
+    font-size: 1.2em ;
+    color: #777 ;
+    text-align: center;
+    margin-top: 0 ;
+    padding: 0 ;
+    border-radius: 5px;
+}
+
+
+.task-item {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s ease;
+    
+}
+
+.task-item-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.task-item:hover {
+    background-color: #d3d3d3;
+}
+
+.task-item:hover .task-item-link {
+    color: black; /* Колір тексту при наведенні */
+}
+
+
+.login-link {
+    color: blue; /* Синій колір для посилання */
+    text-decoration: underline; /* Підкреслення для посилання */
+}
+
+.login-link:hover {
+    color: #0056b3; /* Темніший синій колір при наведенні */
+    text-decoration: none; /* Забираємо підкреслення при наведенні */
+}
+
+
+.no-tasks-div {
+    margin-top: 25px;
+}
+
+
+.create-task-container {
+    text-align: center;
+    margin-bottom: 10px;
+
+}
+
+.create-task-button {
+    display: block;
+    width: 100%;
+    padding: 10px 0;
+    background-color: #000; /* Чорний колір */
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px; /* Закруглені краї кнопки */
+    transition: background-color 0.3s ease;
+    
+}
+
+.create-task-button:hover {
+    background-color: #222222; /* Трохи світліший чорний при наведенні */
+}
+
+.login-prompt {
+    color: #d9534f; /* Червоний колір для помилок */
+    margin-top: 10px; /* Відступ зверху */
+}

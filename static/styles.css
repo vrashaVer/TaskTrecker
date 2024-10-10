@@ -16,6 +16,8 @@ header {
     background-color: rgba(38, 37, 37, 0.8); /* Темний фон з прозорістю */
     padding: 15px 0;
     width: 100%;
+    position: fixed; /* Зафіксувати заголовок */
+    z-index: 1000; /* Забезпечити, щоб заголовок був поверх інших елементів */
 }
 
 nav {
@@ -72,3 +74,10 @@ footer {
     text-align: center;
     padding: 15px 0;
 }
+
+
+.tasks-page {
+    display: flex;
+    justify-content: space-between;
+}
+

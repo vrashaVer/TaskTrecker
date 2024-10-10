@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'detail.css' %}">
+
+<div class="task-detail-container">
+    <div class="task-detail-content">
+        <div class="task-image">
+            {% if task.image %}
+                <img src="{{ task.image.url }}" alt="Task Image" class="task-image" />
+            {% else %}
+                <img src="{% static 'default_image.png' %}" alt="Default Image" class="task-image" />
+            {% endif %}
+        </div>
+        <div class="task-info">
+            <h2>Task Details</h2>
+            <h3>{{ task.name }}</h3>
+            <p>Deadline: {{ task.deadline }}</p>
+            <p>Priority: {{ task.get_priority_display }}</p>
+            <p>Description: {{ task.description }}</p> 
+            <p>Status: {{ task.get_status_display }}</p> 
+            {% if task.file %}
+                <div class="task-file">
+                    <h4>Attached File:</h4>
+                    <a href="{{ task.file.url }}" download>{{ task.file.name }}</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="button-container">
+        <a href="{% url 'tasks-list' %}" class="btn">Back to Tasks</a>
+        <a href="{% url 'task_edit' task.id %}" class="btn">Edit Task</a>
+        <!-- Кнопка для видалення -->
+        <form action="{% url 'task_delete' task.id %}" method="POST" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn delete-btn">Delete Task</button>
+        </form>
+    </div>
+</div>
+
+
+
+{% endblock %}

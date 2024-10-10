@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'styles/tasks.css' %}">
+<div class="tasks-page">
+
+    <div class="filters" >
+        <p>Зона для фільтрів</p>
+        <!-- Місце для фільтрів завдань у майбутньому -->
+    </div>
+
+    <div class="main-content" >
+        <!-- Пошукова стрічка -->
+        <form method="get" action="">
+            <input type="text" name="search" placeholder="Search tasks..." value="{{ request.GET.search }}" style="width: 100%; padding: 8px; margin-bottom: 20px;">
+        </form>
+
+        <!-- Список всіх завдань -->
+        <ul>
+            {% for task in tasks %}
+                <li>
+                    <h3>{{ task.name }}</h3>
+                    <p>{{ task.description }}</p>
+                    {% if task.deadline %}
+                        <p><strong>Deadline:</strong> {{ task.deadline }}</p>
+                    {% endif %}
+                    <p><strong>Priority:</strong> {{ task.priority }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="urgent-tasks">
+        <h3>Urgent Tasks</h3>
+        <ul>
+            {% for task in urgent_tasks %}
+                <li>
+                    <a href="">{{ task.name }}</a>
+                    <p>Deadline: {{ task.deadline }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endblock %}
