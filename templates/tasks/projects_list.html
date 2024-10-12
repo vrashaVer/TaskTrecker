@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'projects.css' %}">
+
+<div class="projects-container">
+    <aside class="filter-area">
+        <h2>Filters</h2>
+        <!-- Місце для фільтрів -->
+    </aside>
+
+    <div class="project-list-area">
+        <div class="search-container">
+            <form id="search-form" method="get" action="{% url 'projects-list' %}">
+                <input type="text" name="search" id="search-input" placeholder="Search projects..." class="search-bar" value="{{ request.GET.search }}" oninput="submitSearch()">
+            </form>
+        </div>
+
+        <div class="project-list">
+            {% if projects %}
+                {% for project in page_obj.object_list %}
+                    <div class="project-item">
+                        <a href="{% url 'project_detail' project.id %}" class="project-item-link">
+                            <h3>{{ project.name }}</h3>
+                            <p>Deadline: {{ project.deadline }}</p>
+                            <p>Participants: {{ project.participants.count }}</p>
+                        </a>
+                    </div>   
+                {% endfor %}
+            {% else %}
+            
+
+                {% if request.GET.search %}
+                    <div class="no-projects-div">
+                        <p class="no-projects-message">No projects found for "{{ request.GET.search }}".</p>
+                    </div>
+                {% else %}
+                    <div class="no-projects-div">
+                        <p class="no-projects-message">You don't have any projects yet.</p>
+                        {% if not user.is_authenticated %}
+                        <p class="no-projects-message">
+                            If you want to create project, please 
+                            <a href="" class="login-link">log in</a>.
+                        </p>
+                        {% endif %}
+                    </div>
+                {% endif %}
+                
+            {% endif %}
+        </div>
+
+        <!-- Пагінація -->
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1&search={{ request.GET.search }}">&lt;&lt;</a>
+                    <a href="?page={{ page_obj.previous_page_number }}&search={{ request.GET.search }}">&lt; </a>
+                {% endif %}
+        
+                <span class="current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                </span>
+        
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}&search={{ request.GET.search }}">&gt;</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}&search={{ request.GET.search }}">&gt;&gt; </a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+
+    <aside class="upcoming-projects-area">
+        <div class="create-project-container">
+            <a href="{% url 'project_create'%}" class="create-project-button">
+                +Create New Project
+            </a>
+        </div>
+        <h2>Upcoming Deadlines</h2>
+        {% if upcoming_projects %}
+            <ul class="upcoming-list">
+                {% for project in upcoming_projects %}
+                    <li class="upcoming-project">
+                        <a href="" class="project-item-link">
+                            {{ project.name }} - Deadline: {{ project.deadline }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="no-upcoming-projects">You don't have any upcoming projects.</p>
+        {% endif %}
+    </aside>
+</div>
+{% endblock %}
+
+<script>
+    function submitSearch() {
+        const input = document.getElementById('search-input');
+        const form = document.getElementById('search-form');
+        
+        const url = new URL(form.action);
+        url.searchParams.set('search', input.value); 
+        
+        fetch(url)
+            .then(response => response.text())
+            .then(html => {
+                document.querySelector('.project-list').innerHTML = new DOMParser().parseFromString(html, 'text/html').querySelector('.project-list').innerHTML;
+            })
+            .catch(error => console.error('Error:', error));
+    }
+</script>

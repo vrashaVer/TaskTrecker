@@ -95,11 +95,7 @@
     text-align: center;
 }
 
-.task-item-link {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-}
+
 
 .upcoming-list {
     
@@ -174,6 +170,7 @@
     color: inherit;
     display: block;
 }
+
 
 .task-item:hover {
     background-color: #d3d3d3;

@@ -1,0 +1,271 @@
+/* Основний контейнер для сторінки проектів */
+.projects-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    flex-grow: 1;
+    height: calc(97vh - 40px); /* Висота для контейнера */
+}
+
+/* Бокові секції для фільтрів та майбутніх проектів */
+.filter-area, .upcoming-projects-area {
+    width: 20%; /* Ширина для фільтрів та майбутніх проектів */
+    background-color: #e0e0e0;
+    padding: 0;
+    height: 100%; /* Займає всю висоту контейнера */
+    box-sizing: border-box; /* Включає padding у загальний розрахунок */
+}
+
+.filter-area h2, .upcoming-projects-area h2 {
+    text-align: center;
+}
+
+/* Секція для списку проектів */
+.project-list-area {
+    width: 60%; /* Центральна частина займає 60% ширини */
+    padding: 0;
+    background-color: #ffffff;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    
+}
+
+/* Контейнер для пошуку проектів */
+.search-container {
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+}
+
+.search-bar {
+    width: 90%; 
+    max-width: 700px;
+    padding: 8px;
+    margin: 0 auto;
+    display: block;
+}
+
+/* Список проектів */
+.project-list {
+    margin-top: 0;
+    flex-grow: 1;
+    
+    
+}
+
+/* Список окремих проектів */
+.project-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    transition: background-color 0.3s ease;
+}
+
+/* Заголовки проектів */
+.project-item h3 {
+    margin: 0;
+    font-size: 1.2em;
+    display: -webkit-box; /* Встановлюємо display в box для використання -webkit-line-clamp */
+    -webkit-box-orient: vertical; /* Встановлюємо орієнтацію на вертикальну */
+    -webkit-line-clamp: 1; /* Обмежуємо до 2 рядків */
+    overflow: hidden; /* Сховати зайвий текст */
+    text-overflow: ellipsis; /* Показати три крапки */
+    line-height: 1.2em; /* Висота рядка */
+    max-height: 2.4em; /* Максимальна висота для двох рядків */
+}
+
+.project-item p {
+    margin: 4px 0;
+    line-height: 1.3;
+}
+
+/* Стилі для майбутніх проектів */
+.upcoming-projects-area {
+    border-left: 1px solid #ccc;
+    background-color: #e0e0e0;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    max-height: 100%;
+    overflow: hidden;
+}
+
+.project-item-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+/* Список майбутніх проектів */
+.upcoming-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow-y: auto;
+    max-height: calc(450px - 50px);
+    background-color: #d0d0d0;
+    border: 1.5px solid #aaa;
+    padding: 5px;
+}
+
+/* Термінові проекти */
+.upcoming-project {
+    border: 1px solid #ffcc00;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #fff3cd;
+    border-radius: 3px;
+    overflow-wrap: break-word;
+    transition: background-color 0.3s ease;
+    color: black;
+}
+
+.upcoming-project:hover {
+    background-color: rgb(255, 219, 109); /* Світліший фон при наведенні */
+    color: rgb(0, 0, 0);
+}
+
+.upcoming-project a:hover {
+    color: black;
+}
+
+/* Стиль для відсутніх майбутніх проектів */
+.no-upcoming-project {
+    font-size: 1em;
+    color: #777;
+    text-align: center;
+    margin-top: 0 ;
+    padding: 0 ;
+    border-radius: 3px;
+}
+
+/* Повідомлення, коли немає проектів */
+.no-projects-message {
+    font-size: 1.2em;
+    color: #777;
+    text-align: center;
+    margin-top: 0 ;
+    padding: 0 ;
+    border-radius: 5px;
+}
+
+.project-item{
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    background-color: #f9f9f9;
+    transition: background-color 0.3s ease;
+    
+}
+
+.project-item:hover {
+    background-color: #d3d3d3;
+}
+
+.project-item:hover .project-item-link {
+    color: black; /* Колір тексту при наведенні */
+}
+
+/* Кнопка створення нового проекту */
+.create-project-container {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.create-project-button {
+    display: block;
+    width: 100%;
+    padding: 10px 0;
+    background-color: #000; /* Чорний колір */
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px; /* Закруглені краї кнопки */
+    transition: background-color 0.3s ease;
+}
+
+.create-project-button:hover {
+    background-color: #222222;
+}
+
+/* Повідомлення про авторизацію */
+.login-prompt {
+    color: #d9534f;
+    margin-top: 10px;
+}
+
+.login-link {
+    color: blue; /* Синій колір для посилання */
+    text-decoration: underline; /* Підкреслення для посилання */
+}
+
+.login-link:hover {
+    color: #0056b3; /* Темніший синій колір при наведенні */
+    text-decoration: none; /* Забираємо підкреслення при наведенні */
+}
+
+/* Пагінація */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px;
+    font-family: Arial, sans-serif;
+}
+
+.pagination .step-links {
+    display: flex;
+    align-items: center;
+}
+
+.pagination .step-links a,
+.pagination .step-links .current {
+    margin: 0 3px; /* Зменшене відступ між кнопками */
+    padding: 4px 8px; /* Зменшене наповнення кнопок */
+    color: #000000;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px; /* Зменшений розмір шрифту */
+}
+
+.pagination .step-links a:hover {
+    background-color: #000000;
+    color: #fff;
+    border-color: #000000;
+}
+
+.pagination .step-links .current {
+    background-color: #f1f1f1;
+    color: #333;
+    border-color: #ddd;
+    cursor: default;
+}
+
+.pagination .step-links a:disabled {
+    color: #000000;
+    border-color: #ddd;
+    cursor: not-allowed;
+}
+
+.pagination .step-links a {
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.pagination .step-links a {
+    width: 25px; /* Зменшена ширина для кнопок */
+    height: 25px; /* Зменшена висота для кнопок */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

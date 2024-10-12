@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<h2>Project Information:</h2>
+<p><strong>Name:</strong> {{ project.name }}</p>
+<p><strong>Description:</strong> {{ project.description }}</p>
+<p><strong>Deadline:</strong> {{ project.deadline|date:"F j, Y" }}</p>
+<p><strong>Owner:</strong> {{ project.owner.username }}</p>
+<p><strong>Participants:</strong> 
+    {% if project.participants.all %}
+        <ul>
+            {% for participant in project.participants.all %}
+                <li>{{ participant.username }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        No participants in this project.
+    {% endif %}
+</p>
+<a href="{% url 'project_edit' project.id %}" class="edit-project-button">Edit Project</a>
+<a href="{% url 'project_delete' project.id %}" class="delete-project-button">Delete Project</a>
+
+
+<h2>Project Tasks:</h2>
+<ul>
+    {% for task in tasks %}
+        <li>
+            <a href="{% url 'task_detail' task.id %}?next={% url 'project_detail' project.id %}">{{ task.name }}</a> - 
+            Status: {{ task.get_status_display }} - 
+            Priority: {{ task.get_priority_display }}
+            <form action="{% url 'task_delete' task.id %}" method="POST" style="display:inline;">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{% url 'project_detail' project.id %}">  <!-- Додаємо next для повернення на проект -->
+                <button type="submit" class="delete-task-button" onclick="return confirm('Are you sure you want to delete this task?');">Delete Task</button>
+            </form>
+        </li>
+    {% empty %}
+        <li>No tasks in this project.</li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'task_create_from_project' project.id %}">Add a new task</a>
+
+<br>
+
+<a href="{% url 'projects-list' %}">Return to Projects page</a>
+
+{% endblock %}

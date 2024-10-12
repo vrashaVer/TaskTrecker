@@ -8,11 +8,16 @@
 
 <h2>Create New Task</h2>
 
-<form method="post" novalidate>
+<form method="post"  enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit" class="create-task-button">Create Task</button>
 </form>
 
-<a href="{% url 'tasks-list' %}" class="create-task-button">Back to Task List</a>
+{% if project %}
+    <a href="{% url 'project_detail' project.id %}" class="create-task-button">Back to Project</a>
+{% else %}
+    <a href="{% url 'tasks-list' %}" class="create-task-button">Back to Task List</a>
+{%endif%} 
+
 {% endblock %}

@@ -35,13 +35,13 @@ nav {
     margin-right: 15px;
 }
 
-a {
-    color: white;
+.base-a {
+    color: rgb(255, 255, 255);
     text-decoration: none;
     transition: color 0.3s; /* Додаємо анімацію для переходу кольору */
 }
 
-a:hover {
+.base-a:hover {
     color: #ffcc00; /* Колір посилання при наведенні (жовтий) */
 }
 

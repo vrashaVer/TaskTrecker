@@ -21,8 +21,8 @@ class Task(models.Model):
     priority = models.CharField(max_length=1, choices=PRIORITY_CHOICES, default='M')
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='PENDING')
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    project = models.ForeignKey('Project', on_delete=models.SET_NULL, null=True, blank=True)
-    image = models.ImageField(upload_to='task_images/', null=True, blank=True)
+    project = models.ForeignKey('Project', on_delete=models.SET_NULL, null=True, blank=True,related_name='tasks')
+    image = models.ImageField(upload_to='task_images/', null=True, blank=True, default='default_image.png')
     file = models.FileField(upload_to='task_files/', null=True, blank=True)
 
     def __str__(self):
@@ -33,10 +33,14 @@ class Project(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
     deadline = models.DateField(null=True, blank=True)
-    participants = models.ManyToManyField(User, related_name='projects')
+    participants = models.ManyToManyField(User, related_name='projects',null=True, blank=True)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
+    
+    def get_tasks(self):
+        return self.tasks.all()
     
 class Comment(models.Model):
     task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='comments')

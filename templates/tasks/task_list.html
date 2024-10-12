@@ -22,7 +22,7 @@
             {% if tasks %}
                 {% for task in tasks %}
                     <div class="task-item {{ task.priority|lower }}">
-                        <a href="{% url 'task_detail' task.id %}" class="task-item-link">
+                        <a href="{% url 'task_detail' task.id %}?next={% url 'tasks-list' %}" class="task-item-link">
                             <h3>{{ task.name }}</h3>
                             <p>Deadline: {{ task.deadline }}</p>
                             <p>Priority: {{ task.get_priority_display }}</p>
@@ -61,7 +61,7 @@
             <ul class="upcoming-list">
                 {% for urgent in urgent_tasks %}
                     <li class="urgent-task">
-                        <a href="{% url 'task_detail' urgent.id %}" class="task-item-link">
+                        <a href="{% url 'task_detail' urgent.id %}?next={% url 'tasks-list' %}" class="task-item-link">
                             {{ urgent.name }} - Deadline: {{ urgent.deadline }}
                         </a>
                     </li>

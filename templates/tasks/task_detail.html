@@ -9,9 +9,9 @@
     <div class="task-detail-content">
         <div class="task-image">
             {% if task.image %}
-                <img src="{{ task.image.url }}" alt="Task Image" class="task-image" />
+                <img src="{{ task.image.url }}" alt="{{ task.name }}" class="task-image" />
             {% else %}
-                <img src="{% static 'default_image.png' %}" alt="Default Image" class="task-image" />
+                <img src="/media/task_images/default_image.png" alt="Default Image" class="task-image" />
             {% endif %}
         </div>
         <div class="task-info">
@@ -24,19 +24,33 @@
             {% if task.file %}
                 <div class="task-file">
                     <h4>Attached File:</h4>
-                    <a href="{{ task.file.url }}" download>{{ task.file.name }}</a>
+                    {% with extension=task.file.name|slice:"-5:" %}
+                        {% if extension == '.docx' or extension == '.doc'%}
+                            <a href="https://docs.google.com/viewer?url={{ task.file.url }}&embedded=true" target="_blank">{{ task.file.name }}</a>
+                        {% elif extension == '.pdf' %}
+                            <a href="https://drive.google.com/viewerng/viewer?embedded=true&url={{ task.file.url }}" target="_blank">{{ task.file.name }}</a>
+                        {% else %}
+                            <a href="{{ task.file.url }}" download>{{ task.file.name }}</a>
+                        {% endif %}
+                    {% endwith %}
                 </div>
             {% endif %}
         </div>
     </div>
 
     <div class="button-container">
-        <a href="{% url 'tasks-list' %}" class="btn">Back to Tasks</a>
+        {% if next %}
+            <a href="{{ next }}" class="btn">Back</a>  <!-- Використовуємо параметр next -->
+        {% else %}
+            <a href="{% url 'tasks-list' %}" class="btn">Back to Tasks</a>
+        {% endif %}
         <a href="{% url 'task_edit' task.id %}" class="btn">Edit Task</a>
         <!-- Кнопка для видалення -->
+
         <form action="{% url 'task_delete' task.id %}" method="POST" style="display:inline;">
             {% csrf_token %}
-            <button type="submit" class="btn delete-btn">Delete Task</button>
+            <input type="hidden" name="next" value="{% if request.GET.next %}{{ request.GET.next }}{% else %}{% url 'tasks-list' %}{% endif %}">  <!-- Передаємо next параметр -->
+            <button type="submit" class="btn delete-btn" onclick="return confirm('Are you sure you want to delete this task?');">Delete Task</button>
         </form>
     </div>
 </div>
