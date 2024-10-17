@@ -7,8 +7,47 @@
 
 <div class="tasks-container">
     <aside class="filter-area">
-        <h2>Filters</h2>
-        <!-- Add your future filter options here -->
+        <h2 class="filter-title">Filters</h2>
+        <div id="filters">
+            <form method="GET" action="{% url 'tasks-list' %}">
+                <label for="sort">Sort by Deadline:</label>
+                <select id="sort" name="sort">
+                    <option value="">Select...</option>
+                    <option value="asc" {% if request.GET.sort == 'asc' %}selected{% endif %}>Ascending</option>
+                    <option value="desc" {% if request.GET.sort == 'desc' %}selected{% endif %}>Descending</option>
+                </select>
+                <!-- Фільтр за строком здачі -->
+                <label for="deadline">Deadline:</label>
+                <input type="date" id="deadline" name="deadline" value="{{ request.GET.deadline }}">
+    
+                <!-- Фільтр за статусом -->
+                <label for="status">Status:</label>
+                <select id="status" name="status">
+                <option value="">All</option>
+                <option value="COMPLETED" {% if request.GET.status == 'COMPLETED' %}selected{% endif %}>Completed</option>
+                <option value="IN_PROGRESS" {% if request.GET.status == 'IN_PROGRESS' %}selected{% endif %}>In Progress</option>
+                <option value="PENDING" {% if request.GET.status == 'PENDING' %}selected{% endif %}>Pending</option>
+                </select>
+    
+                <!-- Фільтр за пріоритетом -->
+                <label for="priority">Priority:</label>
+                <select id="priority" name="priority">
+                <option value="">All</option>
+                <option value="H" {% if request.GET.priority == 'H' %}selected{% endif %}>High</option>
+                <option value="M" {% if request.GET.priority == 'M' %}selected{% endif %}>Medium</option>
+                <option value="L" {% if request.GET.priority == 'L' %}selected{% endif %}>Low</option>
+                </select>
+    
+                
+    
+                <!-- Кнопка фільтрації -->
+                 
+                <button type="submit">Filter</button>
+            
+                
+            </form>
+            
+        </div>
     </aside>
 
     <div class="task-list-area">
@@ -27,6 +66,19 @@
                             <p>Deadline: {{ task.deadline }}</p>
                             <p>Priority: {{ task.get_priority_display }}</p>
                         </a>
+                        {% if task.status != 'COMPLETED' %}
+                            <!-- Форма для кнопки "Mark as Completed", якщо статус не "completed" -->
+                            <form action="{% url 'task_complete' task.id %}" method="POST" class="mark-completed-form">
+                                {% csrf_token %}
+                                <input type="hidden" name="next" value="{{ request.path }}">
+                                <button type="submit" class="mark-completed-button">Mark as Completed</button>
+                            </form>
+                        {% else %}
+                            <!-- Якщо завдання позначене як "Completed", відображаємо текст -->
+                            <div class="completed-task-text">
+                                Completed
+                            </div>
+                        {% endif %}
                     </div>   
                     
                 {% endfor %}
@@ -77,6 +129,7 @@
 
 
 <script>
+    
     function submitSearch() {
         const input = document.getElementById('search-input');
         const form = document.getElementById('search-form');

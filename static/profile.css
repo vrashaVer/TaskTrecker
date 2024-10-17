@@ -1,0 +1,113 @@
+.profile-container {
+    margin: 20px auto;
+    max-width: 1300px; /* Максимальна ширина контейнера */
+    padding: 0 20px; /* Відступи з боків */
+}
+
+h1 {
+    text-align: left;
+    margin: 30px 0;
+}
+
+.profile-info-container {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    padding: 20px;
+    margin-bottom: 20px; /* Відступ між блоками */
+    width: 100%; /* Зробити блок на всю ширину */
+    display: flex;
+    flex-direction: column; /* Вертикальне розміщення елементів */
+}
+
+.initials-container {
+    text-align: left; /* Вирівнювання зліва */
+    flex: 0 0 auto; /* Автоматична ширина для квадрата */
+}
+
+.user-icon-large-pr {
+    width: 100px; /* Збільшення розміру квадрата */
+    height: 100px; /* Збільшення розміру квадрата */
+    border-radius: 8px; /* Квадратна форма для іконки */
+    background-color: #808080; /* Колір фону для іконки */
+    font-size: 48px; /* Збільшення шрифту для ініціалів */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0; /* Відступи для іконки */
+    color: white;
+}
+.profile-photo-pr{
+    width: 150px; /* Розмір квадрата */
+    height: 150px; /* Розмір квадрата */
+    object-fit: cover; /* Масштабування з обрізанням */
+    border-radius: 8px; /* Відповідність заокругленню квадрата */
+}
+
+
+.profile-photo-upload {
+    display: flex;
+    align-items: center; /* Вирівнювання по вертикалі */
+    gap: 20px; /* Відступ між фото і формою */
+}
+
+.upload-photo-form {
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+   
+}
+
+.upload-photo-form input[type="file"] {
+    margin-bottom: 10px;
+}
+
+.upload-photo-form button {
+    padding: 8px 12px;
+    background-color: #6cb0f5;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100px;
+}
+
+.upload-photo-form button:hover {
+    background-color: #007acc; /* Темніший відтінок блакитного при наведенні */
+}
+
+
+
+
+.divider-line {
+    border-top: 1px solid #ccc; /* Лінія між блоками */
+    width: 100%; /* Ширина лінії на всю ширину */
+    margin: 10px 0; /* Відступи зверху і знизу */
+}
+
+.personal-info-section {
+    margin-top: 20px; /* Відступ для блоку особистої інформації */
+    max-width: 700px; /* Зменшення ширини блоку особистої інформації */
+}
+
+h2 {
+    margin-top: 10px; /* Відступ для заголовка */
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px; /* Відступ між рядами */
+}
+
+.info-column {
+    text-align: left;
+    width: 45%; /* Залишити ширину для колонок */
+}
+
+.info-box {
+    border: 1px solid #ccc;
+    padding: 5px;
+    border-radius: 4px;
+    margin-top: 5px; /* Відступ для візуального поділу */
+}

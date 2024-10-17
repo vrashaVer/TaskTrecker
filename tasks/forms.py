@@ -1,12 +1,20 @@
 from django import forms
-from .models import Task,Project
+from .models import Task,Project, TaskFile,Comment,ProfilePhoto
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
+
+
+class TaskFileForm(forms.ModelForm):
+    class Meta:
+        model = TaskFile
+        fields = ['file']
 
 
 class TaskForm(forms.ModelForm):
+
     class Meta:
         model = Task
-        fields = ['name', 'description' ,'deadline', 'priority',"status",'image', 'file', 'project']
+        fields = ['name', 'description' ,'deadline', 'priority',"status",'image', 'project']
 
 
 class ProjectForm(forms.ModelForm):
@@ -38,3 +46,19 @@ class ProjectForm(forms.ModelForm):
             self.fields['tasks'].queryset = Task.objects.all()  # Отримуємо всі завдання
             self.fields['tasks'].initial = self.instance.tasks.all()  # Встановлюємо поточні завдання проекту
 
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['text']
+
+class CustomUserCreationForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'email']
+
+
+class ProfilePhotoForm(forms.ModelForm):
+    class Meta:
+        model = ProfilePhoto
+        fields = ['photo']

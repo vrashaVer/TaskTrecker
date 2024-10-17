@@ -48,7 +48,8 @@
 
 .friend-block {
     display: flex; /* Використовуємо flex для вирівнювання */
-    align-items: flex-start; /* Вертикальне вирівнювання з верхом */
+    justify-content: space-between; /* Вирівнюємо елементи по краях */
+    align-items: center; /* Вертикальне вирівнювання */
     padding: 10px; /* Внутрішні відступи */
     margin: 5px 0; /* Зовнішні відступи між блоками */
     background-color: #f9f9f9; /* Фон блоку */
@@ -56,7 +57,6 @@
     border-radius: 5px; /* Закруглені краї */
     cursor: pointer; /* Змінюємо курсор на pointer при наведенні */
     transition: background-color 0.3s; /* Анімація зміни фону при наведенні */
-    flex-direction: column; /* Розташування елементів у стовпчик */
 }
 
 .friend-name {
@@ -64,27 +64,22 @@
     margin-left: 10px; /* Відступ зліва */
 }
 
-.btn-group {
-    display: flex; /* Вирівнюємо кнопки */
-    justify-content: flex-end; /* Вирівнюємо по правому краю */
-    margin-top: 10px; /* Відступ зверху для кнопок */
-}
-
-.btn {
-    background-color: #007bff; /* Синій фон для кнопок */
-    color: white; /* Білий текст на кнопках */
+.btn.delete-btn {
+    background-color: #ff4d4d; /* Червоний фон для кнопки видалення */
+    color: white; /* Білий текст на кнопці */
     border: none; /* Без межі */
-    padding: 5px 10px; /* Внутрішні відступи кнопок */
-    border-radius: 5px; /* Закруглені краї кнопок */
+    padding: 5px 10px; /* Внутрішні відступи кнопки */
+    border-radius: 5px; /* Закруглені краї кнопки */
     cursor: pointer; /* Змінюємо курсор на pointer при наведенні */
-    transition: background-color 0.3s; /* Анімація зміни фону кнопок */
-    margin-left: 5px; /* Відступ між кнопками */
-    flex-grow: 1; /* Кнопки займають однакову ширину */
-   
+    transition: background-color 0.3s; /* Анімація зміни фону кнопки */
 }
 
-.btn:hover {
-    background-color: #0056b3; /* Темніший синій при наведенні */
+.btn.delete-btn:hover {
+    background-color: #ff1a1a; /* Темніший червоний фон при наведенні */
+}
+
+.friend-block:hover {
+    background-color: #e0e0e0; /* Зміна фону при наведенні */
 }
 
 .friend-avatar {
@@ -109,12 +104,12 @@
     color: white; /* Колір тексту */
     font-size: 20px; /* Розмір шрифту */
     font-weight: bold; /* Жирний текст */
+    margin-bottom: 10px;
 }
 
 /* Стилі для списку запитів */
 .requests-list {
     margin-top: 20px;
-    
 }
 .requests-list-container {
     list-style-type: none; /* Прибираємо стандартні позначки списку */
@@ -141,12 +136,15 @@
 }
 
 .request-area button {
-    padding: 8px;
-    background-color: #007bff; /* Синій фон */
-    color: white; /* Білий текст */
-    border: none; /* Без контуру */
-    border-radius: 4px; /* Закруглені кути */
-    cursor: pointer; /* Зміна курсора при наведенні */
+    background-color: #007bff; /* Синій фон для кнопок */
+    color: white; /* Білий текст на кнопках */
+    border: none; /* Без межі */
+    padding: 5px 10px; /* Внутрішні відступи кнопок */
+    border-radius: 5px; /* Закруглені краї кнопок */
+    cursor: pointer; /* Змінюємо курсор на pointer при наведенні */
+    transition: background-color 0.3s; /* Анімація зміни фону кнопок */
+    margin-left: 5px; /* Відступ між кнопками */
+    flex-grow: 1; /* Кнопки займають однакову ширину */
 }
 
 .request-area button:hover {
@@ -169,6 +167,7 @@
 .request-block:hover {
     background-color: #f0f0f0; /* Зміна фону при наведенні */
 }
+
 .action-buttons {
     display: flex; /* Вирівнюємо кнопки */
     justify-content: space-between; /* Розміщуємо кнопки з відстанню між ними */

@@ -20,9 +20,10 @@
         No participants in this project.
     {% endif %}
 </p>
-<a href="{% url 'project_edit' project.id %}" class="edit-project-button">Edit Project</a>
-<a href="{% url 'project_delete' project.id %}" class="delete-project-button">Delete Project</a>
-
+{% if task.owner == request.user %}
+    <a href="{% url 'project_edit' project.id %}" class="edit-project-button">Edit Project</a>
+    <a href="{% url 'project_delete' project.id %}" class="delete-project-button">Delete Project</a>
+{%endif%}
 
 <h2>Project Tasks:</h2>
 <ul>
@@ -31,19 +32,36 @@
             <a href="{% url 'task_detail' task.id %}?next={% url 'project_detail' project.id %}">{{ task.name }}</a> - 
             Status: {{ task.get_status_display }} - 
             Priority: {{ task.get_priority_display }}
-            <form action="{% url 'task_delete' task.id %}" method="POST" style="display:inline;">
-                {% csrf_token %}
-                <input type="hidden" name="next" value="{% url 'project_detail' project.id %}">  <!-- Додаємо next для повернення на проект -->
-                <button type="submit" class="delete-task-button" onclick="return confirm('Are you sure you want to delete this task?');">Delete Task</button>
-            </form>
+            {%if project.owner == request.user or request.user in project.participants.all%}
+                {% if task.status != 'COMPLETED' %}
+                    <!-- Форма для кнопки "Mark as Completed", якщо статус не "completed" -->
+                    <form action="{% url 'task_complete' task.id %}" method="POST" class="mark-completed-form">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ request.path }}">
+                        <button type="submit" class="mark-completed-button">Mark as Completed</button>
+                    </form>
+                {% else %}
+                    <!-- Якщо завдання позначене як "Completed", відображаємо текст -->
+                    <div class="completed-task-text">
+                        Completed
+                    </div>
+                {% endif %}
+            {% endif %}   
+            {% if task.owner == request.user %}
+                <form action="{% url 'task_delete' task.id %}" method="POST" style="display:inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{% url 'project_detail' project.id %}">  <!-- Додаємо next для повернення на проект -->
+                    <button type="submit" class="delete-task-button" onclick="return confirm('Are you sure you want to delete this task?');">Delete Task</button>
+                </form>
+            {%endif%}
         </li>
     {% empty %}
         <li>No tasks in this project.</li>
     {% endfor %}
 </ul>
-
-<a href="{% url 'task_create_from_project' project.id %}">Add a new task</a>
-
+{% if task.owner == request.user %}
+    <a href="{% url 'task_create_from_project' project.id %}">Add a new task</a>
+{%endif%}
 <br>
 
 <a href="{% url 'projects-list' %}">Return to Projects page</a>

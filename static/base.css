@@ -23,11 +23,15 @@ header {
 nav {
     display: flex;
     justify-content: space-between;
+    
+    align-items: center; /* Залишити вирівнювання по центру */
+    height: 100%;
 }
 
 .nav-links, .auth-links {
     list-style-type: none;
     padding: 0;
+   
 }
 
 .nav-links li, .auth-links li {
@@ -54,3 +58,127 @@ footer {
 }
 
 
+/* Іконка користувача */
+.user-menu {
+    position: relative;
+    display: inline-block;
+   
+    
+}
+.profile-photo {
+    width: 40px; /* Ширина квадрата */
+    height: 40px; /* Висота квадрата */
+    object-fit: cover; /* Масштабування, щоб повністю заповнити квадрат */
+    border-radius: 5px; /* Така ж закругленість, як у .user-icon */
+}
+.profile-photo-menu{
+    width: 80px; /* Ширина збільшеного квадрата */
+    height: 80px; /* Висота збільшеного квадрата */
+    object-fit: cover; /* Масштабування з обрізанням, щоб заповнити квадрат */
+    border-radius: 5px; /* Відповідність закругленню квадрата */
+}
+
+.user-icon {
+    position: relative; /* Додано для дозволу зміщення */
+    width: 40px;
+    height: 40px;
+    background-color: #808080;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.2rem;
+    border-radius: 5px; /* Робить його квадратним з невеликими закругленнями */
+    margin-top: 0;  /* Може бути збільшено для помітнішого зміщення */
+   
+}
+
+/* Випадаюче меню */
+.dropdown-content {
+    display: none; /* Сховане за замовчуванням */
+    position: absolute;
+    right: 0; /* Вирівняти меню праворуч від значка */
+    transform: translateX(5%); /* Трохи змістити меню ліворуч */
+    background-color: #f9f9f9;
+    min-width: 250px; /* Збільшено ширину меню */
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 5px;
+    margin-top: 10px; /* Додано відступ зверху для меню */
+}
+.dropdown-section:first-child {
+    padding: 20px 15px; /* Додано більші відступи зверху та знизу */
+}
+
+/* Сектори випадаючого меню */
+.dropdown-section {
+    padding: 0; /* Знято відступи, щоб уникнути пробілів */
+}
+
+/* Розділення між секторами */
+.dropdown-section:not(:last-child) {
+    border-bottom: 1px solid #ccc; /* Сіра риса між секторами */
+}
+
+/* Посилання в меню */
+.dropdown-content a {
+    color: black;
+    padding: 10px 15px; /* Збільшено padding для комфортнішого вигляду */
+    text-decoration: none;
+    display: block; /* Робить елемент блочним, щоб він займав всю ширину */
+    width: 100%; /* Встановлюємо ширину на 100% */
+    box-sizing: border-box; /* Додаємо до розрахунку ширини та висоти */
+}
+
+/* Ховер ефект для посилань */
+.dropdown-content a:hover {
+    background-color: #ddd; /* Колір фону при наведенні */
+}
+
+/* Великий значок користувача */
+.user-icon-large {
+    width: 80px; /* Збільшено */
+    height: 80px; /* Збільшено */
+    background-color: #808080; /* Може бути інший колір */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2rem; /* Збільшено */
+    margin: 0 auto; /* Вирівнювання по центру */
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+/* Пошта користувача */
+.user-email {
+    text-align: center; /* Вирівнюємо по центру */
+    color: #333; /* Текстовий колір */
+    margin-top: 5px; /* Відступ зверху */
+    font-size: 12px;
+}
+
+
+.logout-button {
+    width: 100%; /* Встановлюємо ширину на 100% */
+    padding: 10px; /* Додаємо відступи для кнопки */
+    background-color: transparent; /* Фон кнопки прозорий */
+    border: none; /* Без рамки */
+    text-align: left; /* Вирівнюємо текст по лівому краю */
+    cursor: pointer; /* Зміна курсору при наведенні */
+    font-family: Arial, sans-serif; /* Встановлюємо той самий шрифт */
+    font-size: 14px; /* Встановіть бажаний розмір шрифту */
+    color: black; /* Колір тексту */
+}
+/* Ховер ефект для кнопки */
+.logout-button:hover {
+    background-color: #ddd; /* Колір фону при наведенні */
+}
+
+.user-name {
+    color: #333; /* Колір тексту */
+    margin-top: 5px; /* Відступ зверху */
+    font-size: 16px; /* Розмір шрифту */
+    text-align: center;
+}

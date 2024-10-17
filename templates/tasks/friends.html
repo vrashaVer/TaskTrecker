@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'friends.css' %}">
+
+<div class="friends-container">
+    <aside class="empty-area">
+        <!-- Лівий сектор, який залишається порожнім -->
+    </aside>
+
+    <div class="friends-list-area">
+        <div class="search-container">
+            <form id="search-form" method="get" action="{% url 'friends' %}">  <!-- Зміна з 'friends-list' на 'friends' -->
+                <input type="text" name="search" id="search-input" placeholder="Search friends..." class="search-bar" value="{{ request.GET.search }}" oninput="submitSearch()">
+            </form>
+        </div>
+
+        <div class="friends-list">
+            {% for friend in friends %}
+                <div class="friend-block" onclick="location.href='{% url 'friend_profile' friend.username %}'">
+                    <div class="friend-avatar">
+                        {% if friend.profile_photo and friend.profile_photo.photo %}
+                            <img src="{{ friend.profile_photo.photo.url }}" alt="Profile Photo" class="profile-photo-circle">
+                        {% else %}
+                            <div class="user-icon-large">
+                                {% if friend.first_name and friend.last_name %}
+                                    {{ friend.first_name|slice:":1" }}{{ friend.last_name|slice:":1" }} <!-- Ініціали -->
+                                {% else %}
+                                    {{ friend.username|slice:":1" }} <!-- Перша літера логіна -->
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <span class="friend-name">{{ friend.username }}</span> <!-- Ім'я користувача -->
+                    <form action="{% url 'remove_friend' friend.username %}" method="POST" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn delete-btn" onclick="return confirm('Ви впевнені, що хочете видалити цього друга?');">Видалити з друзів</button>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>      
+    </div>
+
+    <aside class="request-area">
+        <h2>Friend Requests</h2>
+        <form method="POST" action="{% url 'friends' %}">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="send_friend_request">
+            <input type="text" name="friend_username" placeholder="Enter username" required>
+            <button type="submit">Send Request</button>
+        </form>
+
+        <div class="requests-list">
+            {% if friend_requests %}
+                <ul class="requests-list-container">
+                    {% for request in friend_requests %}
+                        <li class="request-item">
+                            <a href="{% url 'friend_profile' request.from_user.username %}" class="request-block">
+                                <div class="friend-info">
+                                    {% if request.from_user.profile.avatar %}
+                                        <img src="{{ request.from_user.profile.avatar.url }}" alt="{{ request.from_user.username }}" class="avatar">
+                                    {% else %}
+                                        <div class="user-icon-large">
+                                            {% if request.from_user.first_name and request.from_user.last_name %}
+                                                {{ request.from_user.first_name|slice:":1" }}{{ request.from_user.last_name|slice:":1" }} <!-- Ініціали -->
+                                            {% else %}
+                                                {{ request.from_user.username|slice:":1" }} 
+                                            {% endif %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="request-info">
+                                    <span class="friend-name">{{ request.from_user.username }}</span>
+                                    <div class="action-buttons">
+                                        <form method="post" action="{% url 'friends' %}" class="action-form">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="action" value="accept_friend_request">
+                                            <input type="hidden" name="request_id" value="{{ request.id }}">
+                                            <button type="submit" class="btn accept-btn">Accept</button>
+                                        </form>
+                                        <form method="post" action="{% url 'friends' %}" class="action-form">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="action" value="reject_friend_request">
+                                            <input type="hidden" name="request_id" value="{{ request.id }}">
+                                            <button type="submit" class="btn reject-btn">Reject</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No pending requests.</p>
+            {% endif %}
+        </div>
+    </aside>
+</div>
+
+{% endblock %}
+
+<script>
+    function submitSearch() {
+        const input = document.getElementById('search-input');
+        const form = document.getElementById('search-form');
+        
+        const url = new URL(form.action);
+        url.searchParams.set('search', input.value);
+        
+        fetch(url)
+            .then(response => response.text())
+            .then(html => {
+                document.querySelector('.friends-list').innerHTML = new DOMParser().parseFromString(html, 'text/html').querySelector('.friends-list').innerHTML;
+            })
+            .catch(error => console.error('Error:', error));
+    }
+</script>

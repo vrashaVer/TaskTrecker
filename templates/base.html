@@ -8,7 +8,35 @@
 
     <link rel="stylesheet" href="{% static 'base.css' %}">
     <title>{% block title %}Task Tracker{% endblock %}</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    // Отримуємо елемент значка користувача
+    const userIcon = document.querySelector(".user-icon");
+    // Отримуємо елемент випадаючого меню
+    const dropdownContent = document.getElementById("dropdown");
 
+    // Додаємо подію кліку на значок користувача
+    userIcon.addEventListener("click", function () {
+        // Перевіряємо, чи меню вже відображається
+        const isVisible = dropdownContent.style.display === "block";
+
+        // Сховати всі меню
+        document.querySelectorAll('.dropdown-content').forEach(menu => {
+            menu.style.display = 'none';
+        });
+
+        // Відображаємо або ховаємо випадаюче меню
+        dropdownContent.style.display = isVisible ? "none" : "block";
+    });
+
+    // Закриваємо меню, якщо користувач натискає поза меню
+    window.addEventListener("click", function(event) {
+        if (!userIcon.contains(event.target) && !dropdownContent.contains(event.target)) {
+            dropdownContent.style.display = "none";
+        }
+    });
+});
+    </script>
 </head>
 <body>
     <header >
@@ -19,15 +47,65 @@
                 <li><a href="{% url 'projects-list'%}" class="base-a">Projects</a></li>
             </ul>
             
-            <ul class="auth-links">
-                {% if user.is_authenticated %}
-                    <form method="post" action="{% url 'logout' %}" style="display: inline;">
-                        {% csrf_token %}
-                        <button type="submit" class="logout-button">Logout</button>
-                    </form>
-                {% else %}
-                    <li><a href="{% url 'login' %}">Login</a></li>
-                {% endif %}
+            
+            {% if user.is_authenticated %}
+                <div class="user-menu">
+                    <div class="user-icon" onclick="toggleDropdown()">
+                        {% if profile_photo %}
+                            <img src="{{ profile_photo.photo.url }}" alt="Profile Photo" class="profile-photo">
+                        {% else %}
+                            <div class="user-icon">
+                                {% if user.first_name and user.last_name %}
+                                    {{ user.first_name|slice:":1" }}{{ user.last_name|slice:":1" }}
+                                {% else %}
+                                    {{ user.username|slice:":1" }}
+                                {% endif %}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="dropdown-content" id="dropdown">
+                        <div class="dropdown-section">
+                            <div class="user-icon-large">
+                                {% if profile_photo %}
+                                    <img src="{{ profile_photo.photo.url }}" alt="Profile Photo" class="profile-photo-menu">
+                                {% else %}
+                                    <div class="user-icon-large">
+                                        {% if user.first_name and user.last_name %}
+                                            {{ user.first_name|slice:":1" }}{{ user.last_name|slice:":1" }}
+                                        {% else %}
+                                            {{ user.username|slice:":1" }}
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="user-name"> <!-- Додаємо клас для стилізації -->
+                                {% if user.first_name and user.last_name %}
+                                    {{ user.first_name }} {{ user.last_name }} <!-- Відображення імені та прізвища -->
+                                {% else %}
+                                    - <!-- Якщо жодне з імен або прізвищ не задане, відображається один прочерк -->
+                                {% endif %}
+                            </div>
+                    
+                            <div class="user-email">{{ user.email|default:"-" }}</div>
+                            
+                        </div>
+                        <div class="dropdown-section">
+                            <a href="{%url 'user_profile'%}">Profile</a>
+                            <a href="{%url 'friends'%}">Friends</a>
+                        </div>
+                        <div class="dropdown-section">
+                            <form method="post" action="{% url 'logout' %}">
+                                {% csrf_token %}
+                                <button type="submit" class="logout-button">Logout</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <ul class="auth-links">
+                    <li><a class="base-a" href="{% url 'login' %}">Login</a></li>
+                </ul>
+            {% endif %}
             </ul>
         </nav>
     </header>
