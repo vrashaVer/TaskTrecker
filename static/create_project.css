@@ -1,4 +1,4 @@
-.create-task-container {
+.create-project-container {
     max-width: 600px; /* Максимальна ширина контейнера */
     margin: 20px auto; /* Центруємо контейнер */
     padding: 20px; /* Внутрішні відступи */
@@ -7,14 +7,9 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Тінь для контейнера */
 }
 
-.create-task-container h2 {
+.create-project-container h2 {
     text-align: center; /* Центруємо заголовок */
     margin-bottom: 20px; /* Відступ знизу */
-}
-
-.task-form {
-    display: flex;
-    flex-direction: column; /* Вертикальне вирівнювання полів */
 }
 
 .form-group {
@@ -30,17 +25,12 @@ label {
 input[type="text"],
 input[type="date"],
 textarea,
-select,
-input[type="file"] {
+select {
     width: 100%; /* Ширина полів */
     padding: 10px; /* Внутрішні відступи */
     border: 1px solid #ccc; /* Рамка */
     border-radius: 5px; /* Закруглені краї */
     box-sizing: border-box; /* Включає відступи в загальний розрахунок */
-}
-
-input[type="file"] {
-    padding: 3px; /* Зменшуємо внутрішні відступи */
 }
 
 .button-wrapper {
@@ -49,31 +39,27 @@ input[type="file"] {
     margin-top: 15px;
 }
 
-.create-task-button {
-    background-color: #000000;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    text-align: center;
-    width: 30%; /* Задаємо ширину кнопки, наприклад, 50% */
-
+.create-project-button {
+    background-color: #000000; /* Колір фону кнопки */
+    color: white; /* Колір тексту кнопки */
+    border: none; /* Без рамки */
+    padding: 10px 20px; /* Внутрішні відступи */
+    border-radius: 5px; /* Закруглені краї кнопки */
+    cursor: pointer; /* Змінює курсор при наведенні */
+    transition: background-color 0.3s; /* Плавна зміна кольору фону */
 }
-.create-task-button:hover {
+
+.create-project-button:hover {
     background-color: #222222; /* Змінюємо колір при наведенні */
 }
-/* Стилі для повідомлень про помилки */
+
 .error-message {
     color: red; /* Червоний колір тексту */
     font-size: 14px; /* Розмір шрифту для помилок */
     margin-top: 5px; /* Відступ зверху */
-    text-decoration: none;
-    background-color: rgba(255, 158, 158, 0.9);
-    padding: 2px;
+    background-color: rgba(255, 158, 158, 0.9); /* Світло-червоний фон для помилок */
+    padding: 2px; /* Внутрішні відступи для помилок */
 }
-
 
 .get-back {
     background-color: #000000; /* Синій фон */

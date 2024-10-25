@@ -1,7 +1,9 @@
 from django import forms
-from .models import Task,Project, TaskFile,Comment,ProfilePhoto
+from .models import Task,Project, TaskFile,Comment,ProfilePhoto,Friend
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from django.core.exceptions import ValidationError
+from datetime import date
 
 
 class TaskFileForm(forms.ModelForm):
@@ -15,7 +17,27 @@ class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = ['name', 'description' ,'deadline', 'priority',"status",'image', 'project']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),  # Додаємо клас до поля назви
+            'description': forms.Textarea(attrs={'class': 'form-control'}),
+            'deadline': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'priority': forms.Select(attrs={'class': 'form-control'}),
+            'status': forms.Select(attrs={'class': 'form-control'}),
+            'image': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'project': forms.Select(attrs={'class': 'form-control'}),
+        }
 
+    def clean_deadline(self):
+        deadline = self.cleaned_data.get('deadline')
+        if deadline and deadline < date.today():
+            raise ValidationError("The deadline cannot be in the past.")
+        return deadline
+
+    def clean_name(self):
+        name = self.cleaned_data.get('name')
+        if len(name) < 3:
+            raise ValidationError("The task name must be at least 3 characters long.")
+        return name
 
 class ProjectForm(forms.ModelForm):
     tasks = forms.ModelMultipleChoiceField(
@@ -31,6 +53,11 @@ class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
         fields = ['name','description','deadline','participants', 'tasks']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),  # Додаємо клас до поля назви
+            'description': forms.Textarea(attrs={'class': 'form-control'}),
+            'deadline': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+        }
 
     def __init__(self, *args, **kwargs):
         owner = kwargs.pop('owner', None)
@@ -40,11 +67,27 @@ class ProjectForm(forms.ModelForm):
 
         if owner:
             # Вилучаємо власника з queryset для учасників
-            self.fields['participants'].queryset = User.objects.exclude(id=owner.id)
+            friends = Friend.objects.filter(user=owner).values_list('friend', flat=True)
+            self.fields['participants'].queryset = User.objects.filter(id__in=friends).exclude(id=owner.id)
+           
 
         if self.instance.pk:  # Якщо проект вже існує (редагування)
             self.fields['tasks'].queryset = Task.objects.all()  # Отримуємо всі завдання
             self.fields['tasks'].initial = self.instance.tasks.all()  # Встановлюємо поточні завдання проекту
+    def clean_name(self):
+        name = self.cleaned_data.get('name')
+        if len(name) > 100:  # Перевірка на максимальну довжину
+            raise ValidationError("Назва проєкту не повинна перевищувати 100 символів.")
+        if len(name) < 3:  # Перевірка на мінімальну довжину
+            raise ValidationError("Назва проєкту повинна містити не менше 3 символів.")
+        return name
+
+    def clean_deadline(self):
+        deadline = self.cleaned_data.get('deadline')
+        if deadline and deadline < date.today():
+            raise ValidationError("Термін не може бути в минулому.")
+        return deadline   
+    
 
 
 class CommentForm(forms.ModelForm):

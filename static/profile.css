@@ -1,3 +1,7 @@
+body{
+    background-color: #edecec;
+}
+
 .profile-container {
     margin: 20px auto;
     max-width: 1300px; /* Максимальна ширина контейнера */
@@ -12,7 +16,7 @@ h1 {
 .profile-info-container {
     border: 1px solid #ccc;
     border-radius: 8px;
-    background-color: #f9f9f9;
+    background-color: #ffffff;
     padding: 20px;
     margin-bottom: 20px; /* Відступ між блоками */
     width: 100%; /* Зробити блок на всю ширину */

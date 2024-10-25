@@ -5,6 +5,7 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'friends.css' %}">
 
+
 <div class="friends-container">
     <aside class="empty-area">
         <!-- Лівий сектор, який залишається порожнім -->
@@ -18,13 +19,22 @@
         </div>
 
         <div class="friends-list">
+            {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
             {% for friend in friends %}
                 <div class="friend-block" onclick="location.href='{% url 'friend_profile' friend.username %}'">
                     <div class="friend-avatar">
                         {% if friend.profile_photo and friend.profile_photo.photo %}
                             <img src="{{ friend.profile_photo.photo.url }}" alt="Profile Photo" class="profile-photo-circle">
                         {% else %}
-                            <div class="user-icon-large">
+                            <div class="user-icon-large-fr">
                                 {% if friend.first_name and friend.last_name %}
                                     {{ friend.first_name|slice:":1" }}{{ friend.last_name|slice:":1" }} <!-- Ініціали -->
                                 {% else %}

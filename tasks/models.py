@@ -23,6 +23,7 @@ class Task(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     project = models.ForeignKey('Project', on_delete=models.SET_NULL, null=True, blank=True,related_name='tasks')
     image = models.ImageField(upload_to='task_images/', null=True, blank=True)
+    
 
     def __str__(self):
         return self.name

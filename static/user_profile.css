@@ -1,0 +1,145 @@
+body {
+    background-color: #edecec; /* Very light blue background */
+}
+
+.user-profile-container {
+    background-color: white; /* White block for the profile */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    max-width: 800px;
+    margin: 40px auto; /* Centering the block */
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.profile-info-container {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.photo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-photo-fr {
+    width: 150px;
+    height: 150px;
+    border-radius: 5px;
+    object-fit: cover;
+    margin-top: 15px;
+}
+
+.default-avatar {
+    width: 150px;
+    height: 150px;
+    background-color: #8fd2ff;
+    color: white;
+    font-size: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    margin-top: 15px;
+
+}
+
+.personal-info-section {
+    flex-grow: 1;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.user-posts-section {
+    margin-top: 30px;
+}
+
+.post-item {
+    margin-bottom: 20px;
+}
+
+.post-item h3 {
+    margin: 0;
+}
+
+a {
+    color: #007acc;
+}
+
+/* Added section for action buttons */
+.action-buttons {
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    margin-bottom: 30px; /* Spacing before the posts section */
+}
+
+.action-form {
+    display: inline;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    text-align: center;
+}
+
+.accept-btn {
+    background-color: #4CAF50; /* Green for Accept */
+}
+
+.reject-btn {
+    background-color: #f44336; /* Red for Reject */
+}
+
+.remove-btn {
+    background-color: #f44336; /* Red for Remove Friend */
+}
+
+.btn:hover {
+    opacity: 0.9; /* Subtle hover effect */
+}
+
+/* Styling for shared projects */
+.user-projects-section {
+    margin-top: 30px;
+}
+
+.project-item {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.project-item h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #007acc;
+}
+
+
+.project-item a {
+    color: #007acc;
+    font-size: 14px;
+    text-decoration: underline;
+}
+
+.project-item a:hover {
+    text-decoration: none;
+}

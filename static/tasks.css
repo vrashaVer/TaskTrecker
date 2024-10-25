@@ -13,53 +13,95 @@
     height: 100%; /* Займає всю висоту контейнера */
     box-sizing: border-box; /* Включає відступи в загальний розрахунок */
 }
+#filters {
+    margin-top: 20px; /* Відступ зверху */
+    padding: 10px; /* Внутрішні відступи */
+    background-color: #f0f0f0; /* Світло-сірий фон для секції фільтрів */
+    border-radius: 5px; /* Закруглені краї */
+}
+
 .filter-area {
     width: 20%; /* Відсоток ширини для фільтрів */
     background-color: #e0e0e0; /* Світло-сірий фон */
     padding: 15px; /* Внутрішній відступ */
     height: 100%; /* Займає всю висоту контейнера */
     box-sizing: border-box; /* Включає відступи в загальний розрахунок */
-    overflow-y: auto; /* Прокрутка, якщо вміст виходить за межі */
 }
+
+
 .filter-area h2{
     text-align: center;
 }
+.filter-area label {
+    display: block; /* Блочний елемент для лейблів */
+    margin-bottom: 5px; /* Відступ між лейблом та полем */
+    font-weight: bold; /* Жирний текст для лейблів */
+}
 
-.filter-button {
-    background-color: #007bff; /* Основний колір кнопки */
-    color: white; /* Білий колір тексту */
+.filter-area select{
+    width: 100%; /* Ширина 100% для полів вводу */
+    padding: 8px; /* Внутрішні відступи */
+    margin-bottom: 15px; /* Відступ між полями */
+    border: 1px solid #ccc; /* Сіра рамка */
+    border-radius: 4px; /* Закруглені краї */
+}
+input[type="date"] {
+    width: 100%; /* Зменшуємо ширину до 90% від батьківського елемента */
+    max-width: 255px; /* Максимальна ширина для поля вибору дати */
+    padding: 8px; /* Внутрішні відступи для зручності */
+    margin: 10px 0; /* Відступи зверху та знизу для відділення від інших елементів */
+    border: 1px solid #ccc; /* Рамка для поля вибору дати */
+    border-radius: 5px; /* Закруглені краї */
+    box-sizing: border-box; /* Включає відступи в загальний розрахунок */
+}
+
+.filter-area button {
+    background-color: #000000; /* Синій фон для кнопки */
+    color: white; /* Білий текст */
+    padding: 5px 0; /* Внутрішні відступи */
     border: none; /* Без рамки */
-    border-radius: 5px; /* Заокруглення кнопок */
-    padding: 10px 15px; /* Внутрішні відступи кнопок */
+    border-radius: 5px; /* Закруглені краї */
     cursor: pointer; /* Курсор при наведенні */
-    transition: background-color 0.3s; /* Плавний перехід кольору */
-    width: 100%; /* Заповнює всю ширину контейнера */
-}
-.filter-button:hover {
-    background-color: #0056b3; /* Темніший відтінок при наведенні */
-}
-.filter-title {
-    font-size: 1.5rem; /* Розмір шрифту заголовка */
-    margin-bottom: 10px; /* Відступ знизу */
-    color: #343a40; /* Темний колір тексту */
-    font-weight: bold; /* Жирний шрифт */
-}
-.filter-category {
-    margin-bottom: 15px; /* Відступ між категоріями */
-}
-.filter-category-title {
-    font-size: 1.2rem; /* Розмір шрифту заголовка категорії */
-    color: #495057; /* Сірий колір тексту */
-    margin-bottom: 5px; /* Відступ знизу */
+    transition: background-color 0.3s; /* Анімація при наведенні */
+    width: 49%; 
+    font-size: 14px;
+    
+
 }
 
-.filter-label {
-    font-size: 1rem; /* Розмір шрифту для міток */
-    color: #495057; /* Сірий колір тексту */
+
+.filter-area button:hover {
+    background-color: #222222; /* Темніший синій при наведенні */
 }
-.filter-checkbox {
-    margin-right: 10px; /* Відступ праворуч */
+
+.clear-filters-button {
+    display: block;
+    width: 49%;
+    padding: 10px 0;
+    background-color: #6e6e6e; 
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 8px; /* Закруглені краї кнопки */
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+    
 }
+
+.clear-filters-button:hover {
+    background-color: #353535; /* Трохи світліший чорний при наведенні */
+    color: white; /* Колір тексту при наведенні */
+}
+.filter-buttons {
+    display: flex; /* Використовуємо flexbox для вирівнювання в одному рядку */
+    justify-content: space-between; /* Розміщуємо кнопки на однаковій відстані */
+    gap: 10px; /* Відстань між кнопками */
+    
+
+}
+
 
 .task-list-area {
     width: 60%; /* Центральна частина займає 60% ширини */
@@ -314,3 +356,6 @@
 .task-item.completed {
     font-size: 14px; /* Менший розмір шрифту для завершених завдань */
 }
+
+
+

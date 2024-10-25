@@ -1,14 +1,42 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'login.css' %}">  <!-- Підключіть свій CSS файл -->
+</head>
+<body>
+    <div class="login-container">
+        <h2>Login</h2>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.username.label }}  <!-- Лейбл для поля користувача -->
+                {{ form.username }}  <!-- Поле вводу для імені користувача -->
+                {% for error in form.username.errors %}
+                    <div class="error-message">{{ error }}</div>  <!-- Відображення помилок -->
+                {% endfor %}
+            </div>
 
-{% block content %}
-<div class="login-container">
-    <h2>Login</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }} 
-        <button type="submit">Login</button>
-    </form>
-    <a href="{% url 'tasks-list' %}">back</a>
-    <p>Don't have an account? <a href="{% url 'register' %}">Sign up here</a>.</p>
-</div>
-{% endblock %}
+            <div class="form-group">
+                {{ form.password.label }}  <!-- Лейбл для поля пароля -->
+                {{ form.password }}  <!-- Поле вводу для пароля -->
+                {% for error in form.password.errors %}
+                    <div class="error-message">{{ error }}</div>  <!-- Відображення помилок -->
+                {% endfor %}
+            </div>
+
+            <button type="submit" class="btn">Login</button>
+        </form>
+
+        <p class="auth-prompt" style="text-align: center;">Don't have an account? <a href="{% url 'register' %}">Sign up here</a>.</p>
+        <div class="back-link">
+            <a href="{% url 'home' %}">Back</a>
+        </div>
+        
+        
+    </div>
+</body>
+</html>

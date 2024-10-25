@@ -59,12 +59,7 @@ footer {
 
 
 /* Іконка користувача */
-.user-menu {
-    position: relative;
-    display: inline-block;
-   
-    
-}
+
 .profile-photo {
     width: 40px; /* Ширина квадрата */
     height: 40px; /* Висота квадрата */
@@ -176,9 +171,10 @@ footer {
     background-color: #ddd; /* Колір фону при наведенні */
 }
 
-.user-name {
+.user-name-menu {
     color: #333; /* Колір тексту */
     margin-top: 5px; /* Відступ зверху */
     font-size: 16px; /* Розмір шрифту */
     text-align: center;
+   
 }

@@ -1,14 +1,66 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'registration.css' %}">  <!-- Підключіть свій CSS файл -->
+</head>
+<body>
+<div class="registration-container">
+    <h2>Register</h2>
 
-{% block content %}
-<div class="login-container">
-    <h2>Login</h2>
+    {% if form.errors %}
+        <div class="error-messages">
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <div class="error-message">{{ error }}</div>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <div class="error-message">{{ error }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }} 
-        <button type="submit">Register</button>
+        <div class="form-group">
+            {{ form.username.label }}  <!-- Назва поля для введення імені користувача -->
+            {{ form.username }}  <!-- Поле для введення імені користувача -->
+        </div>
+        <div class="form-group">
+            {{ form.first_name.label }}  <!-- Назва поля для введення імені -->
+            {{ form.first_name }}  <!-- Поле для введення імені -->
+        </div>
+        <div class="form-group">
+            {{ form.last_name.label }}  <!-- Назва поля для введення прізвища -->
+            {{ form.last_name }}  <!-- Поле для введення прізвища -->
+        </div>
+        <div class="form-group">
+            {{ form.email.label }}  <!-- Назва поля для введення email -->
+            {{ form.email }}  <!-- Поле для введення email -->
+        </div>
+        <div class="form-group">
+            {{ form.password1.label }}  <!-- Назва поля для введення пароля -->
+            {{ form.password1 }}  <!-- Поле для введення пароля -->
+        </div>
+        <div class="form-group">
+            {{ form.password2.label }}  <!-- Назва поля для повторного введення пароля -->
+            {{ form.password2 }}  <!-- Поле для повторного введення пароля -->
+        </div>
+
+        <button type="submit" class="btn">Register</button>
     </form>
-    <a href="{% url 'tasks-list' %}">back</a>
-    <p>Alreade have account? <a href="{% url 'login' %}">Sign up here</a>.</p>
+    <div class="back-link-container">
+        <p>Already have an account? <a href="{% url 'login' %}">Sign in here</a>.</p>
+    </div>
+    
+    <div class="back-button-container">
+        <a href="{% url 'home' %}" class="back-button">Back</a>
+    </div>
+
 </div>
-{% endblock %}
+</body>
+</html>

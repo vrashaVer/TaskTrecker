@@ -40,10 +40,12 @@
     
                 
     
-                <!-- Кнопка фільтрації -->
-                 
-                <button type="submit">Filter</button>
-            
+                <!-- Кнопки фільтрації -->
+                <div class="filter-buttons">
+                    <button type="submit" class="filter-button">Filter</button>
+                    <a href="{% url 'tasks-list' %}" class="clear-filters-button">Clear Filters</a>
+                
+                </div>
                 
             </form>
             
@@ -93,7 +95,7 @@
                         {% if not user.is_authenticated %}
                             <p class="no-tasks-message">
                                 If you want to create tasks, please 
-                                <a href="" class="login-link">log in</a>.
+                                <a href="{% url 'login' %}" class="login-link">log in</a>.
                             </p>
                         {% endif %}
                     </div>
@@ -105,8 +107,7 @@
 
     <aside class="upcoming-tasks-area">
         <div class="create-task-container">
-            <a href="{% url 'create-task' %}" class="create-task-button" id="create-task-button" onclick="checkAuth(event)">+ Create New Task</a>
-            <p id="login-prompt" class="login-prompt" style="display: none;">You need to <a href="">log in</a> to create a task.</p>
+            <a href="{% url 'create-task' %}" class="create-task-button" id="create-task-button" >+ Create New Task</a>
         </div>
         <h2>Upcoming Deadlines</h2>
         {% if urgent_tasks %}
@@ -147,16 +148,8 @@
             })
             .catch(error => console.error('Error:', error));
     }
-
-    function checkAuth(event) {
-        if (!isAuthenticated) {
-        event.preventDefault(); // Зупиняє перезавантаження сторінки
-        document.getElementById('login-prompt').style.display = 'block'; // Показує повідомлення
-        } else {
-            // Якщо користувач авторизований, то переходить на сторінку створення завдання
-            window.location.href = event.target.href;
-        }
-    }
+   
+    
 
     
 </script>

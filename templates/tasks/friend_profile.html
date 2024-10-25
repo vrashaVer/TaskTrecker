@@ -1,23 +1,76 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
-<h1>Profile of {{ friend.username }}</h1>
+<link rel="stylesheet" href="{% static 'user_profile.css' %}">
 
-<div class="profile-info">
-    {% if friend.profile_photo and friend.profile_photo.photo %}
-        <img src="{{ friend.profile_photo.photo.url }}" alt="Profile Photo" class="profile-photo-circle">
-    {% else %}
-        <div class="user-icon-large">
-            {% if friend.first_name and friend.last_name %}
-                {{ friend.first_name|slice:":1" }}{{ friend.last_name|slice:":1" }} <!-- Ініціали -->
-            {% else %}
-                {{ friend.username|slice:":1" }} <!-- Перша літера логіна -->
-            {% endif %}
+<div class="user-profile-container">
+    <h1>{{ friend.username }}'s Profile</h1>
+    
+    <div class="profile-info-container">
+        <div class="profile-photo-section">
+            <div class="photo-container">
+                {% if friend.profile.photo %}
+                <img src="{{ friend.photo.url }}?{{ friend.updated_at }}" alt="Profile Photo" class="profile-photo-fr">
+                {% else %}
+                    <div class="default-avatar">
+                        {% if friend.first_name and friend.last_name %}
+                            {{ friend.first_name|slice:":1" }}{{ friend.last_name|slice:":1" }} <!-- Ініціали -->
+                        {% else %}
+                            {{ friend.username|slice:":1" }} <!-- Перша літера логіна -->
+                        {% endif %}
+                    </div>
+                {% endif %}
+            </div>
         </div>
-    {% endif %}
-    <h2>{{ friend.username }}</h2>
-    <p>First Name: {{ friend.first_name }}</p>
-    <p>Last Name: {{ friend.last_name }}</p>
-    <!-- Додайте більше інформації про друга, якщо потрібно -->
+
+        <div class="personal-info-section">
+            <h2>Personal Information</h2>
+            <div class="info-row">
+                <p><strong>First Name:</strong> {{ friend.first_name|default:"-" }}</p>
+                <p><strong>Last Name:</strong> {{ friend.last_name|default:"-" }}</p>
+            </div>
+            <div class="info-row">
+                <p><strong>Email:</strong> {{ friend.email }}</p>
+                <p><strong>Joined:</strong> {{ friend.date_joined|date:"F j, Y" }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="action-buttons">
+        {% if friend_request %}
+            <!-- Якщо є запит на дружбу, показати кнопки прийняття/відхилення -->
+            <form method="post" action="{% url 'friends' %}" class="action-form">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="accept_friend_request">
+                <input type="hidden" name="request_id" value="{{ friend_request.id }}">
+                <button type="submit" class="btn accept-btn">Accept</button>
+            </form>
+            <form method="post" action="{% url 'friends' %}" class="action-form">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="reject_friend_request">
+                <input type="hidden" name="request_id" value="{{ friend_request.id }}">
+                <button type="submit" class="btn reject-btn">Reject</button>
+            </form>
+        {% elif is_friend %}
+            <form action="{% url 'remove_friend' friend.username %}" method="POST" style="display:inline;" class="action-form">
+                {% csrf_token %}
+                <button type="submit" class="btn remove-btn" onclick="return confirm('Ви впевнені, що хочете видалити цього друга?');">Видалити з друзів</button>
+            </form>
+        {% endif %}
+    </div>
+
+    <div class="user-projects-section">
+        <h2>Shared Projects</h2>
+        {% if shared_projects %}
+            {% for project in shared_projects %}
+                <div class="project-item">
+                    <h3>{{ project.name }}</h3>
+                    <a href="{% url 'project_detail' project.id %}?next={% url 'friend_profile' friend.username %}">View Project</a>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No shared projects available.</p>
+        {% endif %}
+    </div>
 </div>
+
 {% endblock %}

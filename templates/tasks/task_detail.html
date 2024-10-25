@@ -34,7 +34,13 @@
                                 Completed
                             </div>
                         {% endif %}
-            <p>Project: {{task.project}}</p>
+            <p>Project:
+                {% if task.project %}
+                    <a href="{% url 'project_detail' task.project.id %}?next={% url 'task_detail' task.id %}">{{ task.project }}</a>
+                {% else %}
+                    No project assigned
+                {% endif %}
+            </p>
             <h3>Attached Files</h3>
             {% if task_files %}
                 

@@ -20,6 +20,83 @@
     text-align: center;
 }
 
+#filters {
+    margin-top: 20px; /* Відступ зверху */
+    padding: 10px; /* Внутрішні відступи */
+    background-color: #f0f0f0; /* Світло-сірий фон для секції фільтрів */
+    border-radius: 5px; /* Закруглені краї */
+}
+
+.filter-area {
+    width: 20%; /* Відсоток ширини для фільтрів */
+    background-color: #e0e0e0; /* Світло-сірий фон */
+    padding: 15px; /* Внутрішній відступ */
+    height: 100%; /* Займає всю висоту контейнера */
+    box-sizing: border-box; /* Включає відступи в загальний розрахунок */
+}
+
+.filter-area label {
+    display: block; /* Блочний елемент для лейблів */
+    margin-bottom: 5px; /* Відступ між лейблом та полем */
+    font-weight: bold; /* Жирний текст для лейблів */
+}
+
+.filter-area select{
+    width: 100%; /* Ширина 100% для полів вводу */
+    padding: 8px; /* Внутрішні відступи */
+    margin-bottom: 15px; /* Відступ між полями */
+    border: 1px solid #ccc; /* Сіра рамка */
+    border-radius: 4px; /* Закруглені краї */
+}
+
+
+.filter-area button {
+    background-color: #000000; /* Синій фон для кнопки */
+    color: white; /* Білий текст */
+    padding: 5px 0; /* Внутрішні відступи */
+    border: none; /* Без рамки */
+    border-radius: 5px; /* Закруглені краї */
+    cursor: pointer; /* Курсор при наведенні */
+    transition: background-color 0.3s; /* Анімація при наведенні */
+    width: 49%; 
+    font-size: 14px;
+    
+
+}
+
+
+.filter-area button:hover {
+    background-color: #222222; /* Темніший синій при наведенні */
+}
+
+.clear-filters-button {
+    display: block;
+    width: 49%;
+    padding: 10px 0;
+    background-color: #6e6e6e; 
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 8px; /* Закруглені краї кнопки */
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+    
+}
+
+.clear-filters-button:hover {
+    background-color: #353535; /* Трохи світліший чорний при наведенні */
+    color: white; /* Колір тексту при наведенні */
+}
+.filter-buttons {
+    display: flex; /* Використовуємо flexbox для вирівнювання в одному рядку */
+    justify-content: space-between; /* Розміщуємо кнопки на однаковій відстані */
+    gap: 10px; /* Відстань між кнопками */
+    
+
+}
+
 /* Секція для списку проектів */
 .project-list-area {
     width: 60%; /* Центральна частина займає 60% ширини */
@@ -145,6 +222,7 @@
     margin-top: 0 ;
     padding: 0 ;
     border-radius: 3px;
+    
 }
 
 /* Повідомлення, коли немає проектів */
@@ -155,6 +233,7 @@
     margin-top: 0 ;
     padding: 0 ;
     border-radius: 5px;
+    margin-top: 25px;
 }
 
 .project-item{

@@ -66,7 +66,7 @@ class TaskListView(ListView):
                 queryset = queryset.order_by('-deadline', 'id')  # Сортування по спаданню терміна
             
             # Додайте завдання без терміна в кінець
-            queryset = queryset.order_by('deadline') | queryset.filter(deadline__isnull=True)
+            queryset = queryset.order_by('-deadline') | queryset.filter(deadline__isnull=True)
 
 
             
@@ -121,8 +121,6 @@ class TaskEditView(LoginRequiredMixin,UpdateView):
         return reverse_lazy('task_detail', kwargs={'pk': self.object.id})
 
     def form_valid(self, form):
-        print("Form is valid")
-        print(form.errors)
         # Зберігаємо старе значення проекту
         old_project = self.object.project
 
@@ -130,10 +128,8 @@ class TaskEditView(LoginRequiredMixin,UpdateView):
         response = super().form_valid(form)
 
         uploaded_files = self.request.FILES.getlist('new_files')
-        print(f"Uploaded files: {uploaded_files}")  # Отримуємо всі завантажені файли
         for file in uploaded_files:
             TaskFile.objects.create(task=self.object, file=file)
-            print(f"File {file.name} was uploaded.")
 
         # Якщо завдання перенесене в інший проект або проект був видалений
         if old_project != form.cleaned_data['project']:
@@ -243,6 +239,12 @@ class ProjectListView(ListView):
             query = self.request.GET.get('search')
             if query:
                 queryset = queryset.filter(name__icontains=query)
+
+            sort_order = self.request.GET.get('sort')
+            if sort_order == 'asc':
+                queryset = queryset.order_by('deadline', 'id')  # Сортування по зростанню терміна
+            elif sort_order == 'desc':
+                queryset = queryset.order_by('-deadline', 'id')
         else:
             queryset = Project.objects.none()
        
@@ -295,7 +297,13 @@ class ProjectDetailView(LoginRequiredMixin,DetailView):
         context = super().get_context_data(**kwargs)
         project = self.get_object()  # Отримуємо поточний проєкт
         context['tasks'] = project.tasks.all()  # Додаємо в контекст завдання, прив'язані до проєкту
+        context['user'] = self.request.user
+
+        context['next_url'] = self.request.GET.get('next', reverse_lazy('projects-list'))
         return context
+        
+    
+
     
 
 class ProjectUpdateView(LoginRequiredMixin, UpdateView):
@@ -328,20 +336,26 @@ class ProjectUpdateView(LoginRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context['tasks'] = Task.objects.filter(project=self.object)  # Отримуємо всі завдання для цього проекту
         return context
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['owner'] = self.request.user  # Передаємо власника до форми
+        return kwargs
     
 class ProjectDeleteView(LoginRequiredMixin, DeleteView):
-    model = Project
-    template_name = 'tasks/delete_project.html'  # Шаблон для підтвердження видалення проекту
 
     def get_object(self, queryset=None):
         # Отримуємо проект за ID
         return get_object_or_404(Project, id=self.kwargs['pk'])
 
-    def get_success_url(self):
-        # Перенаправляємо на список проектів після успішного видалення
-        return reverse_lazy('projects-list')  # Змініть на вашу URL для списку проектів
-    
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.delete()  # Виконуємо видалення
+        next_url = request.POST.get('next', reverse_lazy('projects-list'))  # Отримуємо next параметр або повертаємо на список проектів
+        return redirect(next_url)
 
+    def get_success_url(self):
+        return reverse_lazy('projects-list')
+    
 
 
 
@@ -402,7 +416,7 @@ class RegisterView(CreateView):
     def form_valid(self, form):
         user = form.save()
         login(self.request, user)  # Автоматично увійти після реєстрації
-        return super().form_valid(form)
+        return redirect(self.success_url)
     
 class CustomLoginView(LoginView):
     template_name = 'tasks/registration/login.html'  # Вкажіть свій шаблон для входу
@@ -468,7 +482,11 @@ class FriendsView(View):
 
         if action == 'send_friend_request':
             friend_username = request.POST.get('friend_username')
-            friend = get_object_or_404(User, username=friend_username)
+            try:
+                friend = User.objects.get(username=friend_username)
+            except User.DoesNotExist:
+                messages.error(request, 'Користувач з таким ім\'ям не існує.')
+                return redirect('friends')
 
             # Перевірка, чи вже є дружба
             if Friend.objects.filter(user=request.user, friend=friend).exists():
@@ -505,9 +523,25 @@ class FriendsView(View):
 class FriendProfileView(View):
     def get(self, request, username):
         friend = get_object_or_404(User, username=username)
+
+        is_friend = Friend.objects.filter(user=request.user, friend=friend).exists()
+
+        # Отримання запиту на дружбу (якщо є)
+        friend_request = FriendRequest.objects.filter(from_user=friend, to_user=request.user, accepted=False).first()
+
+        shared_projects = Project.objects.filter(
+            (Q(owner=request.user) & Q(participants=friend)) |
+            (Q(owner=friend) & Q(participants=request.user)) |
+            (Q(participants=request.user) & Q(participants=friend))
+        ).distinct()
+
+        return render(request, 'tasks/friend_profile.html', {
+            'friend': friend,
+            'is_friend': is_friend,
+            'friend_request': friend_request,
+            'shared_projects': shared_projects,
+        })
         
-        # Тут ви можете додати будь-які додаткові дані для відображення в профілі друга
-        return render(request, 'tasks/friend_profile.html', {'friend': friend})
     
 class RemoveFriendView(LoginRequiredMixin, View):
     def post(self, request, username):

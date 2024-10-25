@@ -12,7 +12,7 @@
             <div class="initials-container">
                 <p><strong>Profile Photo</strong></p>
                 {% if profile_photo and profile_photo.photo %}
-                    <img src="{{ profile_photo.photo.url }}" alt="Profile Photo" class="profile-photo-pr">
+                <img src="{{ profile_photo.photo.url }}?{{ profile_photo.updated_at }}" alt="Profile Photo" class="profile-photo-pr">
                 {% else %}
                     <div class="user-icon-large">
                         {% if user.first_name and user.last_name %}

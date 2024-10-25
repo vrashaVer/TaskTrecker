@@ -1,0 +1,144 @@
+/* Основний контейнер для проектної сторінки */
+.project-container {
+    display: flex;
+    font-family: Arial, sans-serif;
+}
+
+/* Сайдбар з інформацією про адміністрацію та учасників */
+.sidebar {
+    width: 280px;
+    /* padding: 20px; */
+    background-color: #f9f9f9;
+    border-right: 1px solid #ddd;
+    margin-right: 20px;
+    height: 100vh;
+}
+
+.sidebar h3, .sidebar h4 {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.participant-box {
+    display: block;
+    padding: 10px;
+    text-align: center;
+    margin-bottom: 10px;
+    color: #000000;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #cdcdcd;
+    
+
+}
+
+.participant-box:hover {
+    background-color: #f1f1f1;
+}
+
+.owner {
+    background-color: #e0e0e0;
+    font-weight: bold;
+    color: #333;
+    cursor: default;
+}
+
+/* Основний блок з інформацією про проект */
+.project-details {
+    flex: 1;
+}
+
+.project-details h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.project-details p {
+    margin: 5px 0;
+}
+
+/* Таблиця завдань */
+.tasks-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    text-align: left;
+}
+
+.tasks-table th,
+.tasks-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+.tasks-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.tasks-table a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.completed-text {
+    color: #28a745;
+    font-weight: bold;
+}
+
+/* Кнопки дій */
+.edit-project-button,
+.add-task-btn,
+.back-to-btn,
+.back-to-projects-btn {
+    display: inline-block;
+    padding: 8px 15px;
+    margin-top: 10px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.edit-project-button:hover,
+.add-task-btn:hover,
+.back-to-btn:hover,
+.back-to-projects-btn:hover {
+    background-color: #0056b3;
+}
+
+.delete-btn, .delete-task-button {
+    background-color: #dc3545;
+    color: #fff;
+    padding: 8px 15px;
+    margin-top: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.delete-btn:hover, .delete-task-button:hover {
+    background-color: #c82333;
+}
+
+.mark-completed-button {
+    padding: 6px 12px;
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.mark-completed-button:hover {
+    background-color: #218838;
+}
+
+/* Утримувач для форм */
+.project-actions form {
+    display: inline;
+}

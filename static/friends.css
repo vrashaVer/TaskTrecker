@@ -93,7 +93,7 @@
     object-fit: cover; /* Вирівнювання зображення */
 }
 
-.user-icon-large {
+.user-icon-large-fr {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -173,4 +173,28 @@
     justify-content: space-between; /* Розміщуємо кнопки з відстанню між ними */
     margin-top: 10px; /* Відступ зверху для кнопок */
 }
+.messages {
+    margin: 20px 0;
+}
 
+.alert {
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    color: #721c24;
+}

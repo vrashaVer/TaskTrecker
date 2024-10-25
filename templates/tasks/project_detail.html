@@ -3,45 +3,119 @@
 {% load static %}
 
 {% block content %}
-
-<h2>Project Information:</h2>
-<p><strong>Name:</strong> {{ project.name }}</p>
-<p><strong>Description:</strong> {{ project.description }}</p>
-<p><strong>Deadline:</strong> {{ project.deadline|date:"F j, Y" }}</p>
-<p><strong>Owner:</strong> {{ project.owner.username }}</p>
-<p><strong>Participants:</strong> 
-    {% if project.participants.all %}
-        <ul>
+<link rel="stylesheet" href="{% static 'detail_project.css' %}">
+<div class="project-container">
+    <aside class="sidebar">
+        <h3>Administration</h3>
+        <div class="admin">
+            <div class="participant-box owner">{{ project.owner.username }}</div>
+        </div>
+        <h4>Participants</h4>
+        <div class="participants-list">
             {% for participant in project.participants.all %}
-                <li>{{ participant.username }}</li>
+            <a href="{% url 'friend_profile' participant.username %}" class="participant-box">{{ participant.username }}</a>
+            {% empty %}
+                <p>No participants in this project.</p>
             {% endfor %}
-        </ul>
-    {% else %}
-        No participants in this project.
-    {% endif %}
-</p>
-{% if task.owner == request.user %}
-    <a href="{% url 'project_edit' project.id %}" class="edit-project-button">Edit Project</a>
-    <a href="{% url 'project_delete' project.id %}" class="delete-project-button">Delete Project</a>
-{%endif%}
+        </div>
+    </aside>
 
-<h2>Project Tasks:</h2>
-<ul>
-    {% for task in tasks %}
+    <main class="project-details">
+        <h2>Project Information:</h2>
+        <p><strong>Name:</strong> {{ project.name }}</p>
+        <p><strong>Description:</strong> {{ project.description }}</p>
+        <p><strong>Deadline:</strong> {{ project.deadline|date:"F j, Y" }}</p>
+
+        {% if project.owner == user %}
+            <div class="project-actions">
+                <a href="{% url 'project_edit' project.id %}?next={% url 'projects-list' %}" class="edit-project-button">Edit Project</a>
+                <form action="{% url 'project_delete' project.id %}" method="POST" style="display:inline;">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{% if request.GET.next %}{{ request.GET.next }}{% else %}{% url 'projects-list' %}{% endif %}">  <!-- Передаємо next параметр -->
+                    <button type="submit" class="btn delete-btn" onclick="return confirm('Are you sure you want to delete this project?');">Delete Project</button>
+                </form>
+            </div>   
+        {%endif%}
+
+
+
+        <h2>Project Tasks:</h2>
+        <table class="tasks-table">
+            <thead>
+                <tr>
+                    <th>Task Name</th>
+                    <th>Status</th>
+                    <th>Priority</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in tasks %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'task_detail' task.id %}?next={% url 'project_detail' project.id %}">
+                                {{ task.name }}
+                            </a>
+                        </td>
+                        <td>{{ task.get_status_display }}</td>
+                        <td>{{ task.get_priority_display }}</td>
+                        <td>
+                            {%if project.owner == request.user or request.user in project.participants.all%}
+                                {% if task.status != 'COMPLETED' %}
+                                <!-- Форма для кнопки "Mark as Completed", якщо статус не "completed" -->
+                                    <form action="{% url 'task_complete' task.id %}" method="POST" class="mark-completed-form">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="next" value="{{ request.path }}">
+                                        <button type="submit" class="mark-completed-button">Mark as Completed</button>
+                                    </form>
+                                {% else %}    
+                                    <span class="completed-text">Completed</span>
+                                {% endif %}
+                            {% endif %}
+                            {% if task.owner == request.user or project.owner == request.user %}
+                                <form action="{% url 'task_delete' task.id %}" method="POST" style="display:inline;">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="next" value="{% url 'project_detail' project.id %}">  <!-- Додаємо next для повернення на проект -->
+                                    <button type="submit" class="delete-task-button" onclick="return confirm('Are you sure you want to delete this task?');">Delete Task</button>
+                                </form>
+                            {%endif%}
+                        </td>
+                    </td>
+                {% empty %}
+                    <tr>
+                        <td colspan="4">No tasks in this project.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% if project.owner == user %}
+            <a href="{% url 'task_create_from_project' project.id %}" class="btn add-task-btn">Add a new task</a>
+        {% endif %}
+
+        {% if next_url %}
+            <a href="{{ next_url }}" class="btn back-to-btn">Back</a>
+        {% else %}
+            <a href="{% url 'projects-list' %}" class="btn back-to-projects-btn">Return to Projects page</a>
+        {% endif %}
+    </main>
+</div>
+
+    <!-- {% for task in tasks %}
         <li>
             <a href="{% url 'task_detail' task.id %}?next={% url 'project_detail' project.id %}">{{ task.name }}</a> - 
             Status: {{ task.get_status_display }} - 
             Priority: {{ task.get_priority_display }}
             {%if project.owner == request.user or request.user in project.participants.all%}
                 {% if task.status != 'COMPLETED' %}
-                    <!-- Форма для кнопки "Mark as Completed", якщо статус не "completed" -->
+                    
                     <form action="{% url 'task_complete' task.id %}" method="POST" class="mark-completed-form">
                         {% csrf_token %}
                         <input type="hidden" name="next" value="{{ request.path }}">
                         <button type="submit" class="mark-completed-button">Mark as Completed</button>
                     </form>
                 {% else %}
-                    <!-- Якщо завдання позначене як "Completed", відображаємо текст -->
+                    
                     <div class="completed-task-text">
                         Completed
                     </div>
@@ -50,7 +124,7 @@
             {% if task.owner == request.user %}
                 <form action="{% url 'task_delete' task.id %}" method="POST" style="display:inline;">
                     {% csrf_token %}
-                    <input type="hidden" name="next" value="{% url 'project_detail' project.id %}">  <!-- Додаємо next для повернення на проект -->
+                    <input type="hidden" name="next" value="{% url 'project_detail' project.id %}">  
                     <button type="submit" class="delete-task-button" onclick="return confirm('Are you sure you want to delete this task?');">Delete Task</button>
                 </form>
             {%endif%}
@@ -59,11 +133,15 @@
         <li>No tasks in this project.</li>
     {% endfor %}
 </ul>
-{% if task.owner == request.user %}
+{% if project.owner == request.user %}
     <a href="{% url 'task_create_from_project' project.id %}">Add a new task</a>
 {%endif%}
 <br>
 
-<a href="{% url 'projects-list' %}">Return to Projects page</a>
+{% if next_url %}
+    <a href="{{ next_url }}" class="btn back-to-btn">Back</a>
+{% else %}
+    <a href="{% url 'projects-list' %}" class="btn back-to-projects-btn">Return to Projects page</a>
+{% endif %} -->
 
 {% endblock %}

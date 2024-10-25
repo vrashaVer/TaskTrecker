@@ -1,13 +1,59 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<h2>Edit Project</h2>
+<link rel="stylesheet" href="{% static 'update.css' %}">
 
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="update-project-button">Update Project</button>
-</form>
+<div class="task-edit-container">
+    <h2>Edit Project</h2>
 
-<a href="{% url 'project_detail' project.id %}">Back to Project</a>
+    <form method="post" enctype="multipart/form-data" class="task-edit-form">
+        {% csrf_token %}
+
+        <div class="form-group">
+            {{ form.name.label }}  <!-- Назва проекту -->
+            {{ form.name }}  <!-- Поле вводу для назви проекту -->
+            {% if form.name.errors %}
+                <div class="error-message">{{ form.name.errors }}</div>  <!-- Відображення помилок -->
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.description.label }}  <!-- Опис проекту -->
+            {{ form.description }}  <!-- Поле вводу для опису -->
+            {% if form.description.errors %}
+                <div class="error-message">{{ form.description.errors }}</div>  <!-- Відображення помилок -->
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.deadline.label }}  <!-- Дедлайн -->
+            {{ form.deadline }}  <!-- Поле вводу для дедлайну -->
+            {% if form.deadline.errors %}
+                <div class="error-message">{{ form.deadline.errors }}</div>  <!-- Відображення помилок -->
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.participants.label }}  <!-- Учасники -->
+            {{ form.participants }}  <!-- Поле вибору для учасників -->
+            {% if form.participants.errors %}
+                <div class="error-message">{{ form.participants.errors }}</div>  <!-- Відображення помилок -->
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            {{ form.tasks.label }}  <!-- Завдання -->
+            {{ form.tasks }}  <!-- Поле вибору завдань -->
+            {% if form.tasks.errors %}
+                <div class="error-message">{{ form.tasks.errors }}</div>  <!-- Відображення помилок -->
+            {% endif %}
+        </div>
+
+        <div class="buttons">
+            <button type="submit" class="btn">Save Changes</button>
+            <a href="{% url 'project_detail' project.id %}" class="cancel-btn">Cancel</a>
+        </div>
+    </form>
+</div>
 {% endblock %}
