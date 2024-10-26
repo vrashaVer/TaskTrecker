@@ -38,7 +38,13 @@
     margin: 0 auto;
     display: block;
 }
+.avatar{
+    width: 80px; /* Розмір квадрата */
+    height: 800px; /* Розмір квадрата */
+    object-fit: cover; /* Масштабування з обрізанням */
+    border-radius: 8px; /* Відповідність заокругленню квадрата */
 
+}
 /* Стилі для списку друзів */
 .friends-list {
     margin-top: 0;
@@ -91,6 +97,7 @@
     height: 50px; /* Висота аватарки */
     border-radius: 50%; /* Кругла форма */
     object-fit: cover; /* Вирівнювання зображення */
+    border-color: black;
 }
 
 .user-icon-large-fr {

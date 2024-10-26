@@ -31,8 +31,8 @@
             {% for friend in friends %}
                 <div class="friend-block" onclick="location.href='{% url 'friend_profile' friend.username %}'">
                     <div class="friend-avatar">
-                        {% if friend.profile_photo and friend.profile_photo.photo %}
-                            <img src="{{ friend.profile_photo.photo.url }}" alt="Profile Photo" class="profile-photo-circle">
+                        {% if friend.profilephoto and friend.profilephoto.photo %}
+                            <img src="{{ friend.profilephoto.photo.url }}" alt="Profile Photo" class="profile-photo-circle">
                         {% else %}
                             <div class="user-icon-large-fr">
                                 {% if friend.first_name and friend.last_name %}
@@ -69,8 +69,8 @@
                         <li class="request-item">
                             <a href="{% url 'friend_profile' request.from_user.username %}" class="request-block">
                                 <div class="friend-info">
-                                    {% if request.from_user.profile.avatar %}
-                                        <img src="{{ request.from_user.profile.avatar.url }}" alt="{{ request.from_user.username }}" class="avatar">
+                                    {% if request.from_user.profilephoto.photo  %}
+                                        <img src="{{ request.from_user.profilephoto.photo.url }}" alt="{{ request.from_user.username }}" class="avatar">
                                     {% else %}
                                         <div class="user-icon-large">
                                             {% if request.from_user.first_name and request.from_user.last_name %}

@@ -63,7 +63,13 @@ class ProjectForm(forms.ModelForm):
         owner = kwargs.pop('owner', None)
         super().__init__(*args, **kwargs)
         # Вибираємо тільки ті завдання, які не мають проекту
-        self.fields['tasks'].queryset = Task.objects.filter(project__isnull=True)
+        if self.instance.pk:  # Якщо це редагування проекту
+            self.fields['tasks'].queryset = Task.objects.filter(
+                project__isnull=True
+            ) | Task.objects.filter(project=self.instance)
+            self.fields['tasks'].initial = self.instance.tasks.all()
+        else:  # Для створення нового проекту
+            self.fields['tasks'].queryset = Task.objects.filter(project__isnull=True)
 
         if owner:
             # Вилучаємо власника з queryset для учасників
@@ -71,9 +77,6 @@ class ProjectForm(forms.ModelForm):
             self.fields['participants'].queryset = User.objects.filter(id__in=friends).exclude(id=owner.id)
            
 
-        if self.instance.pk:  # Якщо проект вже існує (редагування)
-            self.fields['tasks'].queryset = Task.objects.all()  # Отримуємо всі завдання
-            self.fields['tasks'].initial = self.instance.tasks.all()  # Встановлюємо поточні завдання проекту
     def clean_name(self):
         name = self.cleaned_data.get('name')
         if len(name) > 100:  # Перевірка на максимальну довжину

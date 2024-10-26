@@ -9,8 +9,8 @@
     <div class="profile-info-container">
         <div class="profile-photo-section">
             <div class="photo-container">
-                {% if friend.profile.photo %}
-                <img src="{{ friend.photo.url }}?{{ friend.updated_at }}" alt="Profile Photo" class="profile-photo-fr">
+                {% if friend.profilephoto and friend.profilephoto.photo %}
+                <img src="{{ friend.profilephoto.photo.url }}?{{ friend.profilephoto.updated_at }}" alt="Profile Photo" class="profile-photo-fr">
                 {% else %}
                     <div class="default-avatar">
                         {% if friend.first_name and friend.last_name %}

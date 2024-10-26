@@ -55,6 +55,8 @@ h1 {
     flex-grow: 1;
 }
 
+
+
 .info-row {
     display: flex;
     justify-content: space-between;

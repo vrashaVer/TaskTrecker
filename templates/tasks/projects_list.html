@@ -95,7 +95,7 @@
             <ul class="upcoming-list">
                 {% for project in upcoming_projects %}
                     <li class="upcoming-project">
-                        <a href="" class="project-item-link">
+                        <a href="{% url 'project_detail' project.id %}" class="project-item-link">
                             {{ project.name }} - Deadline: {{ project.deadline }}
                         </a>
                     </li>

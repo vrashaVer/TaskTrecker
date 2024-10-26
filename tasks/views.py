@@ -17,6 +17,8 @@ from tasks.mixins import UserIsOwner, ProjectOwnerOrParticipantMixin
 from django.core.exceptions import PermissionDenied
 from django.contrib import messages
 from django.contrib.auth.models import User
+from django.utils import timezone
+
 
 class HomePageView(TemplateView):
     template_name = 'tasks/home.html'
@@ -80,9 +82,11 @@ class TaskListView(ListView):
         context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
             upcoming_deadline = datetime.now() + timedelta(days=3)
+            current_time = timezone.now()
             context['urgent_tasks'] = Task.objects.filter(owner=self.request.user,
+                                                        deadline__gte=current_time,
                                                         deadline__lte=upcoming_deadline
-                                                        ).order_by('deadline')
+                                                        ).exclude(status='COMPLETED').order_by('deadline')
             
         else:
             context['urgent_tasks'] = Task.objects.none()
@@ -255,8 +259,10 @@ class ProjectListView(ListView):
         context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
             upcoming_deadline = datetime.now() + timedelta(days=3)
+            current_time = timezone.now()
             context['upcoming_projects'] = Project.objects.filter(
                                                         Q(owner=self.request.user) | Q(participants=self.request.user),
+                                                        deadline__gte=current_time,  
                                                         deadline__lte=upcoming_deadline
                                                     ).order_by('deadline')
         else:
@@ -328,6 +334,12 @@ class ProjectUpdateView(LoginRequiredMixin, UpdateView):
         for task_id in tasks_to_remove:
             task = get_object_or_404(Task, id=task_id)
             task.project = None  # Встановлюємо проект на None, щоб видалити його з проекту
+            task.save()
+
+        tasks_to_add = new_tasks - current_tasks
+        for task_id in tasks_to_add:
+            task = get_object_or_404(Task, id=task_id)
+            task.project = self.object  # Додаємо завдання до проекту
             task.save()
 
         # Зберігаємо нові дані форми
@@ -482,6 +494,9 @@ class FriendsView(View):
 
         if action == 'send_friend_request':
             friend_username = request.POST.get('friend_username')
+            if friend_username == request.user.username:
+                messages.warning(request, 'Ви не можете надіслати запит на дружбу самому собі.')
+                return redirect('friends')
             try:
                 friend = User.objects.get(username=friend_username)
             except User.DoesNotExist:
